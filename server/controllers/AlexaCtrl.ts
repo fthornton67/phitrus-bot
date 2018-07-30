@@ -61,5 +61,5 @@ exports.handler = skillBuilder
   .addRequestHandlers(
     LaunchRequestHandler
   )
-  .invoke();
+  .create();
 export{ AlexaCtrl }
