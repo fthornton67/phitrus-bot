@@ -17,4 +17,5 @@ AlexaRouter.post("/phitr", alexaCtrl.phitr);
 
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
 
+
 export { AlexaRouter };
