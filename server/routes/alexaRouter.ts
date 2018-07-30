@@ -4,6 +4,7 @@ import { AlexaCtrl } from "../controllers/AlexaCtrl";
 const AlexaRouter: Router = Router();
 const alexaCtrl:AlexaCtrl = new AlexaCtrl();
 
+AlexaRouter.get("/",alexaCtrl.root);
 AlexaRouter.get("/get", (request: Request, response: Response) => {
 
   return response.json({
