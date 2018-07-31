@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 //import * as Alexa from 'ask-sdk';
 const Alexa = require("ask-sdk");
+const skillBuilder = Alexa.SkillBuilders.custom();
 
 import alexaModel from "../models/alexaModel";
 import BaseCtrl from "./base";
@@ -22,12 +23,9 @@ return handlerInput.responseBuilder
 let skill;
 class AlexaCtrl {
   post = (req, res) => {
-    console.log("hit post handler");
     if (!skill) {
-      console.log('create skill');
 
-      skill = Alexa.skillBuilder
-        .custom()
+      skill = skillBuilder
         .addRequestHandlers(LaunchRequestHandler)
         .create();
     }
@@ -65,9 +63,5 @@ class AlexaCtrl {
     res.status(200);
   };
 }
-const skillBuilder = Alexa.SkillBuilders.custom();
-/* LAMBDA SETUP */
-exports.handler = skillBuilder
-  .addRequestHandlers(LaunchRequestHandler)
-  .create();
+
 export { AlexaCtrl };
