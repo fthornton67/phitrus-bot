@@ -29,10 +29,9 @@ post = (req,res) => {
 if(!skill){
     skill = Alexa.skillBuilder.custom().addRequestHandlers(
           LaunchRequestHandler
-        )
-        .create();
-  }
-
+        ).create();
+}
+console.log(req.body);
     skill.invoke(req.body)
       .then(function(responseBody) {
         res.json(responseBody);
