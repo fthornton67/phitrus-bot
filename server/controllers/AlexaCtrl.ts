@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 //import * as Alexa from 'ask-sdk';
-const Alexa = require("ask-sdk-core");
+const Alexa = require("ask-sdk");
 
 import alexaModel from "../models/alexaModel";
 import BaseCtrl from "./base";
