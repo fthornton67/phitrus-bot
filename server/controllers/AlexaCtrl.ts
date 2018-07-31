@@ -12,19 +12,9 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-
-    //const item = requestAttributes.t(getRandomItem(Object.keys(recipes.RECIPE_EN_US)));
-
-    const speakOutput = requestAttributes.t('WELCOME_MESSAGE', requestAttributes.t('SKILL_NAME'));
-    const repromptOutput = requestAttributes.t('WELCOME_REPROMPT');
-
-    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
-
     return handlerInput.responseBuilder
-      .speak(speakOutput)
-      .reprompt(repromptOutput)
+      .speak("welcome to phitr")
+      .reprompt("welcome to phitr")
       .getResponse();
   },
 };
