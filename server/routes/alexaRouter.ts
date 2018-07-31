@@ -34,7 +34,6 @@ AlexaRouter.get("/get", (request: Request, response: Response) => {
 //https://bot.phitr.us/api/alexa/post
 AlexaRouter.post("/phitr", alexaCtrl.phitr);
 AlexaRouter.post("/post",requestVerifier,alexaCtrl.post);
-AlexaRouter.get("/got",requestVerifier,alexaCtrl.post);
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
 
 
