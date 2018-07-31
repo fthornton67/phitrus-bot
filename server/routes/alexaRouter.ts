@@ -4,7 +4,7 @@ import { AlexaCtrl } from "../controllers/AlexaCtrl";
 let alexaVerifier = require('alexa-verifier'); // at the top of our file
 
 function requestVerifier(req, res, next) {
-  
+
   console.log(req.headers);
   console.log(req.rawBody);
   console.log(req.headers.signaturecertchainurl);
@@ -16,6 +16,7 @@ function requestVerifier(req, res, next) {
         req.rawBody,
         function verificationCallback(err) {
             if (err) {
+              console.log(err);
                 res.status(401).json({ message: 'Verification Failure', error: err });
             } else {
                 next();
