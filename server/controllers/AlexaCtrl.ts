@@ -14,6 +14,7 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
+    console.log('launch handler');
     return handlerInput.responseBuilder
       .speak("welcome to phitr")
       .reprompt("welcome to phitr")
@@ -24,8 +25,7 @@ const LaunchRequestHandler = {
 let skill;
 class AlexaCtrl  {
 post = (req,res) => {
-console.log('req');
-console.log('post request');
+
 if(!skill){
     skill = Alexa.skillBuilder.custom().addRequestHandlers(
           LaunchRequestHandler

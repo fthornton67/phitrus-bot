@@ -5,12 +5,6 @@ let alexaVerifier = require('alexa-verifier'); // at the top of our file
 
 function requestVerifier(req, res, next) {
 
-  console.log(req.body);
-  console.log(req.headers.signaturecertchainurl);
-  console.log(req.headers.signature);
-  console.log('***************')
-
-
     alexaVerifier(
         req.headers.signaturecertchainurl,
         req.headers.signature,
