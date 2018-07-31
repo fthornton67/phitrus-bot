@@ -4,6 +4,11 @@ import { AlexaCtrl } from "../controllers/AlexaCtrl";
 let alexaVerifier = require('alexa-verifier'); // at the top of our file
 
 function requestVerifier(req, res, next) {
+  console.log(req.headers.signaturecertchainurl);
+
+  console.log(req.headers.signature);
+
+  console.log(req.headers.rawBody);
     alexaVerifier(
         req.headers.signaturecertchainurl,
         req.headers.signature,
@@ -32,6 +37,7 @@ AlexaRouter.get("/get", (request: Request, response: Response) => {
 //https://bot.phitr.us/api/alexa/post
 AlexaRouter.post("/phitr", alexaCtrl.phitr);
 AlexaRouter.post("/post",requestVerifier,alexaCtrl.post);
+AlexaRouter.get("/got",requestVerifier,alexaCtrl.post);
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
 
 
