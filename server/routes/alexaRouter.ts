@@ -12,9 +12,9 @@ AlexaRouter.get("/get", (request: Request, response: Response) => {
     title: "Greetings.",
   });
 });
-
+//https://bot.phitr.us/api/alexa/post
 AlexaRouter.post("/phitr", alexaCtrl.phitr);
-
+AlexaRouter.post("/post",alexaCtrl.post);
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
 
 

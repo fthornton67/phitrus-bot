@@ -31,7 +31,21 @@ const LaunchRequestHandler = {
 
 let skill;
 class AlexaCtrl  {
+post = (req,res) => {if(!skill){
+    skill = Alexa.skillBuilder.custom().addRequestHandlers(
+          LaunchRequestHandler
+        )
+        .create();
+  }
 
+    skill.invoke(req.body)
+      .then(function(responseBody) {
+        res.json(responseBody);
+      })
+      .catch(function(error) {
+        console.log(error);
+        res.status(500).send('Error during the request');
+      });};
 phitr = (req,res) => {
   if(!skill){
     skill = Alexa.skillBuilder.custom().addRequestHandlers(
