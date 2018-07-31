@@ -9,12 +9,12 @@ function requestVerifier(req, res, next) {
   console.log(req.headers.signaturecertchainurl);
   console.log(req.headers.signature);
   console.log('***************')
-  
+
 
     alexaVerifier(
         req.headers.signaturecertchainurl,
         req.headers.signature,
-        req.body,
+        JSON.stringify(req.body),
         function verificationCallback(err) {
             if (err) {
               console.log(err);
