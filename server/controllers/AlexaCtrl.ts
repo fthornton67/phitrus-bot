@@ -23,7 +23,10 @@ const LaunchRequestHandler = {
 
 let skill;
 class AlexaCtrl  {
-post = (req,res) => {if(!skill){
+post = (req,res) => {
+console.log('req');
+console.log('post request');
+if(!skill){
     skill = Alexa.skillBuilder.custom().addRequestHandlers(
           LaunchRequestHandler
         )
