@@ -6,6 +6,8 @@ const Alexa = require('ask-sdk-core');
 import alexaModel from '../models/alexaModel';
 import BaseCtrl from './base';
 
+
+
 /* INTENT HANDLERS */
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
