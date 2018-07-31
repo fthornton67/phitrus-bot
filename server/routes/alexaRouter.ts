@@ -4,6 +4,7 @@ import { AlexaCtrl } from "../controllers/AlexaCtrl";
 let alexaVerifier = require('alexa-verifier'); // at the top of our file
 
 function requestVerifier(req, res, next) {
+  console.log(req);
   console.log(req.headers.signaturecertchainurl);
 
   console.log(req.headers.signature);
