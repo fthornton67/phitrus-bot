@@ -95,13 +95,13 @@ class AlexaCtrl {
           HelpIntentHandler,
           CancelAndStopIntentHandler,
           SessionEndedRequestHandler
-        )
+        ).addErrorHandlers(ErrorHandler)
+
         .create();
     }
     skill
       .invoke(req.body)
       .then(function(responseBody) {
-        console.log(responseBody);
         res.json(responseBody);
       })
       .catch(function(error) {
