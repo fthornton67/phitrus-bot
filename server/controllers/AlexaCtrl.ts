@@ -39,7 +39,7 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    const speechText = "Hey, welcome to the Alexa phitr skill! Whats' up?";
+    const speechText = "Hey, welcome to the Alexa phitr skill! <break time='3s'/> What\'s up?";
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
