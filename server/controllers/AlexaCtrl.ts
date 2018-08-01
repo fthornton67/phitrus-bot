@@ -39,11 +39,11 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    const speechText = "Welcome to the Alexa phitr skill!";
+    const speechText = "Hey, welcome to the Alexa phitr skill! Whats' up?";
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard("Hello World", speechText)
+      .withSimpleCard(".: phitr | us :.", speechText)
       .getResponse();
   }
 };
