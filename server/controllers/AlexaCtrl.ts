@@ -6,10 +6,24 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 import alexaModel from "../models/alexaModel";
 import BaseCtrl from "./base";
 
-const HelloWorldIntentHandler = {
+const PhitrGreetingHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'phitr_greeting';
+    },
+    handle(handlerInput) {
+        const speechText = 'Hello World!';
+return handlerInput.responseBuilder
+            .speak(speechText)
+            .withSimpleCard('Hello World', speechText)
+            .getResponse();
+    }
+};
+
+const PhitrWorkoutHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'phitr_workout';
     },
     handle(handlerInput) {
         const speechText = 'Hello World!';
@@ -91,7 +105,8 @@ class AlexaCtrl {
       skill = skillBuilder
         .addRequestHandlers(
           LaunchRequestHandler,
-          HelloWorldIntentHandler,
+          PhitrGreetingHandler,
+          PhitrWorkoutHandler,
           HelpIntentHandler,
           CancelAndStopIntentHandler,
           SessionEndedRequestHandler
