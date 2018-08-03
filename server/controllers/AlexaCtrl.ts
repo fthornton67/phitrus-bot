@@ -55,14 +55,17 @@ const PhitrActivityHandler = {
 const CompletedPhitrActivityHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-    return request.type === 'IntentRequest' && request.intent.name === 'phitr_activity'
+    return request.type === 'IntentRequest' 
+    && request.intent.name === 'phitr_activity'
     && request.intent.dialogState ==='COMPLETED';
   },
   handle(handlerInput) {
     console.log('Plan My Workout - handle');
-    const responseBuilder = handlerInput.responseBuilder;
-    const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
-    const slotValues = getSlotValues(filledSlots);
+           const speechText = 'Cool lets go!';
+return handlerInput.responseBuilder
+            .speak(speechText)
+            .withSimpleCard('phitr workout', speechText)
+            .getResponse();
 
   }
 }
