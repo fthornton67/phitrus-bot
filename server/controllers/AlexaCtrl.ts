@@ -34,12 +34,23 @@ return handlerInput.responseBuilder
     }
 };
 const PhitrActivityHandler = {
+  
     canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'phitr_activity';
+      var request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest'
+            && request.intent.name === 'phitr_activity'
+            && request.dialogState !== 'COMPLETED';
     },
     handle(handlerInput) {
-        const speechText = 'Thats an activity!';
+      var request = handlerInput.requestEnvelope.request;
+
+  return handlerInput.responseBuilder
+      .addDelegateDirective(request.intent)
+      .getResponse();
+}
+}
+
+        const speechText = 'Cool thats a good activity!';
 return handlerInput.responseBuilder
             .speak(speechText)
             .withSimpleCard('phitr activity', speechText)
@@ -52,7 +63,7 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    const speechText = "Hey, welcome to the Alexa phitr skill! <break time='3s'/> What\'s up?";
+    const speechText = "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What\'s up?";
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
