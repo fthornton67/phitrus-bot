@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 const AlexaRequestSchema = new mongoose.Schema({
-  request: String
+  request: Object
 });
 
 const AlexaRequestModel = mongoose.model('alexarequests', AlexaRequestSchema);
