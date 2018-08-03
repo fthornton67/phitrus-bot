@@ -29,7 +29,20 @@ const PhitrWorkoutHandler = {
         const speechText = 'Hello World!';
 return handlerInput.responseBuilder
             .speak(speechText)
-            .withSimpleCard('Hello World', speechText)
+            .withSimpleCard('phitr workout', speechText)
+            .getResponse();
+    }
+};
+const PhitrActivityHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'phitr_activity';
+    },
+    handle(handlerInput) {
+        const speechText = 'Thats an activity!';
+return handlerInput.responseBuilder
+            .speak(speechText)
+            .withSimpleCard('phitr activity', speechText)
             .getResponse();
     }
 };
@@ -105,6 +118,7 @@ class AlexaCtrl {
       skill = skillBuilder
         .addRequestHandlers(
           LaunchRequestHandler,
+          PhitrActivityHandler,
           PhitrGreetingHandler,
           PhitrWorkoutHandler,
           HelpIntentHandler,
