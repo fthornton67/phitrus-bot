@@ -7,9 +7,9 @@ export default class AlexaRequestCtrl extends BaseCtrl {
    // Insert
   insert = (reqData) => {
     console.log('saving request');
-    const obj = new this.model(reqData.body);
-    obj.request = JSON.stringify(reqData.body);
-    console.log(reqData.body);
+    const obj = new this.model(reqData);
+    obj.request = JSON.stringify(reqData);
+    console.log(reqData);
     obj.save((err, item) => {
       // 11000 is the code for duplicate key error
       if (err && err.code === 11000) {
