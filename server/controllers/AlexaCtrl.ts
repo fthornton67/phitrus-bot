@@ -48,14 +48,7 @@ const PhitrActivityHandler = {
       .addDelegateDirective(request.intent)
       .getResponse();
 }
-}
 
-        const speechText = 'Cool thats a good activity!';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('phitr activity', speechText)
-            .getResponse();
-    }
 };
 
 const LaunchRequestHandler = {
