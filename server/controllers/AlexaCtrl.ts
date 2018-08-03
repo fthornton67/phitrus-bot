@@ -51,6 +51,64 @@ const PhitrActivityHandler = {
 
 };
 
+
+const CompletedPhitrActivityHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest' && request.intent.name === 'phitr_activity'
+    && request.intent.dialogState ==='COMPLETED';
+  },
+  handle(handlerInput) {
+    console.log('Plan My Workout - handle');
+    const responseBuilder = handlerInput.responseBuilder;
+    const filledSlots = handlerInput.requestEnvelope.request.intent.slots;
+    const slotValues = getSlotValues(filledSlots);
+
+  }
+}
+
+function getSlotValues(filledSlots) {
+  const slotValues = {};
+
+  console.log(`The filled slots: ${JSON.stringify(filledSlots)}`);
+  Object.keys(filledSlots).forEach((item) => {
+    const name = filledSlots[item].name;
+
+    if (filledSlots[item] &&
+      filledSlots[item].resolutions &&
+      filledSlots[item].resolutions.resolutionsPerAuthority[0] &&
+      filledSlots[item].resolutions.resolutionsPerAuthority[0].status &&
+      filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code) {
+      switch (filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code) {
+        case 'ER_SUCCESS_MATCH':
+          slotValues[name] = {
+            synonym: filledSlots[item].value,
+            resolved: filledSlots[item].resolutions.resolutionsPerAuthority[0].values[0].value.name,
+            isValidated: true,
+          };
+          break;
+        case 'ER_SUCCESS_NO_MATCH':
+          slotValues[name] = {
+            synonym: filledSlots[item].value,
+            resolved: filledSlots[item].value,
+            isValidated: false,
+          };
+          break;
+        default:
+          break;
+      }
+    } else {
+      slotValues[name] = {
+        synonym: filledSlots[item].value,
+        resolved: filledSlots[item].value,
+        isValidated: false,
+      };
+    }
+  }, this);
+
+  return slotValues;
+}
+
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
@@ -126,6 +184,7 @@ class AlexaCtrl {
           PhitrGreetingHandler,
           PhitrWorkoutHandler,
           HelpIntentHandler,
+          CompletedPhitrActivityHandler,
           CancelAndStopIntentHandler,
           SessionEndedRequestHandler
         ).addErrorHandlers(ErrorHandler)
