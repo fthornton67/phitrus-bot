@@ -178,7 +178,7 @@ let skill;
 const alexaRequestCtrl = new AlexaRequestCtrl();
 class AlexaCtrl {
   post = (req, res) => {
-    alexaRequestCtrl.insert(req,res);
+    alexaRequestCtrl.insert(req);
     if (!skill) {
       skill = skillBuilder
         .addRequestHandlers(
@@ -223,9 +223,8 @@ class AlexaCtrl {
       });
   };
   root = (req, res) => {
-    console.log(req);
-    res.json(req);
-    res.status(200);
+    alexaRequestCtrl.insert(req);
+    res.status(200).send('done')
   };
 }
 

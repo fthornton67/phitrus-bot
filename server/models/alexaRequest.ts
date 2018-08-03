@@ -1,11 +1,9 @@
 import * as mongoose from 'mongoose';
 
 const AlexaRequestSchema = new mongoose.Schema({
-  botName: String,
-  phone: String,
-  rating: Number
+  request: String
 });
 
-const AlexaRequestModel = mongoose.model('Alexa', AlexaRequestSchema);
+const AlexaRequestModel = mongoose.model('alexarequests', AlexaRequestSchema);
 
 export default AlexaRequestModel;
