@@ -56,8 +56,7 @@ const CompletedPhitrActivityHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
     return request.type === 'IntentRequest' 
-    && request.intent.name === 'phitr_activity'
-    && request.intent.dialogState ==='COMPLETED';
+    && request.intent.name === 'phitr_activity';
   },
   handle(handlerInput) {
     console.log('Plan My Workout - handle');
