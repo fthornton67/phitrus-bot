@@ -41,6 +41,8 @@ const PhitrActivityHandler = {
             && request.dialogState !== 'COMPLETED';
     },
     handle(handlerInput) {
+           alexaRequestCtrl.insert(handlerInput);
+
       var request = handlerInput.requestEnvelope.request;
 
   return handlerInput.responseBuilder
@@ -58,6 +60,8 @@ const CompletedPhitrActivityHandler = {
     && request.intent.name === 'phitr_activity';
   },
   handle(handlerInput) {
+         alexaRequestCtrl.insert(handlerInput);
+
     console.log('Plan My Workout - handle');
            const speechText = 'Cool lets go!';
 return handlerInput.responseBuilder
@@ -115,6 +119,8 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
+     alexaRequestCtrl.insert(handlerInput);
+
     const speechText = "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What\'s up?";
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -154,6 +160,8 @@ const CancelAndStopIntentHandler = {
                 || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
+           alexaRequestCtrl.insert(handlerInput);
+
         const speechText = 'Goodbye!';
 return handlerInput.responseBuilder
             .speak(speechText)
@@ -178,7 +186,6 @@ let skill;
 const alexaRequestCtrl = new AlexaRequestCtrl();
 class AlexaCtrl {
   post = (req, res) => {
-    alexaRequestCtrl.insert(req.body);
     if (!skill) {
       skill = skillBuilder
         .addRequestHandlers(
