@@ -3,8 +3,7 @@ import { Request, Response, Router } from "express";
 const Alexa = require("ask-sdk");
 const skillBuilder = Alexa.SkillBuilders.custom();
 
-import alexaModel from "../models/alexaModel";
-import BaseCtrl from "./base";
+import AlexaRequestCtrl from './AlexaRequest';
 
 const PhitrGreetingHandler = {
     canHandle(handlerInput) {
@@ -176,8 +175,10 @@ const ErrorHandler = {
   }
 };
 let skill;
+const alexaRequestCtrl = new AlexaRequestCtrl();
 class AlexaCtrl {
   post = (req, res) => {
+    alexaRequestCtrl.insert(req,res);
     if (!skill) {
       skill = skillBuilder
         .addRequestHandlers(
