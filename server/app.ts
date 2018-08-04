@@ -10,6 +10,7 @@ import { protectedRouter } from "./routes/protected";
 import { publicRouter } from "./routes/public";
 import { userRouter } from "./routes/user";
 import { AlexaRouter } from "./routes/alexaRouter";
+import { SvgRouter } from './routes/svgRouter';
 import * as dotenv from 'dotenv';
 
 if(!process.env.MONGODB_URI){
@@ -31,6 +32,7 @@ app.use("/api/public", publicRouter);
 app.use("/api/feed", feedRouter);
 app.use("/api/user", userRouter);
 app.use("/api/alexa",AlexaRouter);
+app.use("/api/svg",SvgRouter);
 
 
 mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true});
