@@ -139,6 +139,34 @@ const SessionEndedRequestHandler = {
   }
 };
 
+const PauseIntentHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.PauseIntent';
+    },
+    handle(handlerInput) {
+        const speechText = 'Pause Audio';
+return handlerInput.responseBuilder
+            .speak(speechText)
+            .reprompt(speechText)
+            .withSimpleCard('phitr pause', speechText)
+            .getResponse();
+    }
+};
+const ResumeIntentHandler = {
+    canHandle(handlerInput) {
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.ResumeIntent';
+    },
+    handle(handlerInput) {
+        const speechText = 'Resume Audio';
+return handlerInput.responseBuilder
+            .speak(speechText)
+            .reprompt(speechText)
+            .withSimpleCard('phitr resume.', speechText)
+            .getResponse();
+    }
+};
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
