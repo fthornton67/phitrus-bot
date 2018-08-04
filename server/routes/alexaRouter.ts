@@ -38,6 +38,7 @@ AlexaRouter.post("/phitr", alexaCtrl.phitr);
 AlexaRouter.post("/post",requestVerifier,alexaCtrl.post);
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
 AlexaRouter.get("/all",alexaRequests.getAll);
+AlexaRouter.get("/count",alexaRequests.count);
 
 
 export { AlexaRouter };
