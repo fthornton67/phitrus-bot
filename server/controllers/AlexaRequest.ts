@@ -4,9 +4,9 @@ import BaseCtrl from "./base";
 
 export default class AlexaRequestCtrl extends BaseCtrl {
   model = AlexaRequestModel;
-  getCountAR = ()=>{
-      console.log(this.getCount());
-      return this.getCount();
+  getCountAR = (req,res)=>{
+      
+      return this.getCount(req,res);
   };
    // Insert
   insert = (reqData) => {

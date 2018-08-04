@@ -3,11 +3,15 @@ import * as fs from 'fs';
 import * as path from 'path'
 var pug = require('pug');
 import AlexaRequestCtrl from './AlexaRequest';
+var request = require('request');
+
 
 
 
 const aRequestControl = new AlexaRequestCtrl();
+
 class SvgCtrl {
+
  root = (req, res) => {
     //alexaRequestCtrl.insert(req);
     res.status(200).send('done')
@@ -17,10 +21,15 @@ class SvgCtrl {
      var pFile = fs.readFile(path.join(__dirname.replace('/dist',''),'svgpug.xml'),'utf8',(error,data)=>{
        res.type('image/svg+xml');
 
-       var pugTest = pug.render(data,{ id:21212121,name:'Fredrick'});
+request('https://bot.phitr.us/api/alexa/count', function (error, response, body) {
+  var pugTest = pug.render(data,{ id:body,name:'Fredrick'});
 
        res.send(pugTest);
        res.status(200);
+});
+    
+  
+
      }); 
      /*var f = fs.readFile(path.join(__dirname.replace('/dist',''),'test.html'),'utf8',(error,data)=>{
        res.type('xml');

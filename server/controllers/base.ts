@@ -17,10 +17,10 @@ abstract class BaseCtrl {
       res.json(count);
     });
   };
-  getCount = ()=>{
+  getCount = (req,res)=>{
     this.model.countDocuments((err,count) => {
       if(err){ return console.error(err);}
-      return count;
+      res.json({'count':count});
     });
   }
 
