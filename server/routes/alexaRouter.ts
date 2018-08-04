@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import { AlexaCtrl } from "../controllers/AlexaCtrl";
+import AlexaRequestCtrl from '../controllers/AlexaRequest';
 
 let alexaVerifier = require('alexa-verifier'); // at the top of our file
 
@@ -22,6 +23,7 @@ function requestVerifier(req, res, next) {
 
 const AlexaRouter: Router = Router();
 const alexaCtrl:AlexaCtrl = new AlexaCtrl();
+const alexaRequests:AlexaRequestCtrl = new AlexaRequestCtrl();
 
 AlexaRouter.get("/",alexaCtrl.root);
 AlexaRouter.get("/get", (request: Request, response: Response) => {
@@ -35,6 +37,7 @@ AlexaRouter.get("/get", (request: Request, response: Response) => {
 AlexaRouter.post("/phitr", alexaCtrl.phitr);
 AlexaRouter.post("/post",requestVerifier,alexaCtrl.post);
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
+AlexaRouter.get("/all",alexaRequests.getAll);
 
 
 export { AlexaRouter };
