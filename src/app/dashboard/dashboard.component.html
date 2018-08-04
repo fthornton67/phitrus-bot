@@ -2,8 +2,9 @@
 
 <h3>Feeds</h3>
 <app-ui-notes *ngIf="!(feeds$ | async)?.length" type="info" text="No feed, add one."></app-ui-notes>
+<img src="http://localhost:4200/api/svg/attendee" alt="Svg Attendee Image">
 
-<div class="feed animation" *ngFor="let item of feeds$ | async">
+<!--div class="feed animation" *ngFor="let item of feeds$ | async">
   <a>{{item.name}}</a>
   <div class="text">
     {{item.text}}
@@ -38,4 +39,4 @@
   <app-ui-input label="Text" placeholder="Enter text...." [control]="form.get('text')"></app-ui-input>
 
   <app-ui-button [disabled]="!form.valid"  text="Add Feed" (click)="submitFeed()"></app-ui-button>
-</form>
+</form-->

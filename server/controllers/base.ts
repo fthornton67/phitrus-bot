@@ -12,11 +12,17 @@ abstract class BaseCtrl {
 
   // Count all
   count = (req, res) => {
-    this.model.count((err, count) => {
+    this.model.countDocuments((err, count) => {
       if (err) { return console.error(err); }
       res.json(count);
     });
   };
+  getCount = ()=>{
+    this.model.countDocuments((err,count) => {
+      if(err){ return console.error(err);}
+      return count;
+    });
+  }
 
   // Insert
   insert = (req, res) => {

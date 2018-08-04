@@ -3,14 +3,14 @@ ul.topnav {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #008171;
+  background-color: #77fd00;
 }
 
 ul.topnav li {float: left;}
 
 ul.topnav li a {
   display: inline-block;
-  color: #f2f2f2;
+  color: black;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;

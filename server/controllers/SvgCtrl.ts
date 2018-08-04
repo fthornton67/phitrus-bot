@@ -2,8 +2,11 @@ import { Request, Response, Router } from "express";
 import * as fs from 'fs';
 import * as path from 'path'
 var pug = require('pug');
+import AlexaRequestCtrl from './AlexaRequest';
 
 
+
+const aRequestControl = new AlexaRequestCtrl();
 class SvgCtrl {
  root = (req, res) => {
     //alexaRequestCtrl.insert(req);
@@ -12,7 +15,8 @@ class SvgCtrl {
 
   attendee = (req,res) =>{
      var pFile = fs.readFile(path.join(__dirname.replace('/dist',''),'svgpug.xml'),'utf8',(error,data)=>{
-       res.type('xml');
+       res.type('image/svg+xml');
+
        var pugTest = pug.render(data,{ id:21212121,name:'Fredrick'});
 
        res.send(pugTest);
