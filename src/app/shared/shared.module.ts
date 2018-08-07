@@ -40,6 +40,7 @@ import { LoaderComponent } from './loader/loader.component';
     InputComponent,
     SubNavigationComponent,
     NotesComponent
+    
   ]
 })
 export class SharedModule {}
