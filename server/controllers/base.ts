@@ -14,7 +14,7 @@ abstract class BaseCtrl {
   count = (req, res) => {
     this.model.countDocuments((err, count) => {
       if (err) { return console.error(err); }
-      res.json(count);
+      res.status(200).json(count);
     });
   };
   getCount = (req,res)=>{
