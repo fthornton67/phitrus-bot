@@ -13,12 +13,9 @@ import { AlexaRouter } from "./routes/alexaRouter";
 import { SvgRouter } from './routes/svgRouter';
 import * as dotenv from 'dotenv';
 
-console.log(app.get('env'));
 if(!process.env.MONGODB_URI){
   dotenv.config();
 }
-
-console.log(app.get('env'));
 
 const app: express.Application = express();
 
@@ -48,7 +45,7 @@ db.once('open', () => {
 
 });
 
-console.log(app.get('env'))
+console.log(process.env.NODE_ENV);
 if (app.get("env") === "production") {
   console.log('using '+ path.join(__dirname, "/../client"))
   // in production mode run application from dist folder
@@ -67,7 +64,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
   res.status(err.status || 500);
   res.json({
-    error: {},
+    error: {err},
     message: err.message,
   });
 });
