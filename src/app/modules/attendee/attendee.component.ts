@@ -32,11 +32,7 @@ var source1 = interval(1000)
     return from(ajax('/api/alexa/countar'));
   });
 source1.subscribe(
-  res => {this.id = res.response.count;};
-
-   
-
-   );
+  res => {this.id = res.response.count;} );
 
   }
 
