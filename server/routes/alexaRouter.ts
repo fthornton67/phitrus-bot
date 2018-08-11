@@ -40,6 +40,7 @@ AlexaRouter.get("/phitr", alexaCtrl.phitr);
 AlexaRouter.get("/all",alexaRequests.getAll);
 AlexaRouter.get("/count",alexaRequests.count);
 AlexaRouter.get("/countar",alexaRequests.getCountAR);
+AlexaRouter.get("/devices",alexaRequests.getDevices);
 
 
 

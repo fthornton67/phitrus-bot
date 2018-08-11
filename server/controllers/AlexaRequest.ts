@@ -8,6 +8,14 @@ export default class AlexaRequestCtrl extends BaseCtrl {
       
       return this.getCount(req,res);
   };
+
+  getDevices = (req,res) => {
+    this.model.distinct('request.requestEnvelope.context.System.device.deviceId', (err, docs) => {
+      if (err) { return console.error(err); }
+      res.status(200).json(docs);
+    });
+  
+  };
    // Insert
   insert = (reqData) => {
     console.log('saving request');
