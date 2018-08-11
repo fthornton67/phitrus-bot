@@ -48,9 +48,9 @@ db.once('open', () => {
 
 console.log(process.env.NODE_ENV);
 if (app.get("env") === "production") {
-  console.log('using '+ path.join(__dirname, "/../client"))
+  console.log('using '+ path.join(__dirname, "/../dist/client"))
   // in production mode run application from dist folder
-  app.use(express.static(path.join(__dirname, "/../client")));
+  app.use(express.static(path.join(__dirname, "/../dist/client")));
 }
 
 // catch 404 and forward to error handler
