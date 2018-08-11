@@ -13,9 +13,6 @@ import { AlexaRouter } from "./routes/alexaRouter";
 import { SvgRouter } from './routes/svgRouter';
 import * as dotenv from 'dotenv';
 
-if(!process.env.MONGODB_URI){
-  dotenv.config();
-}
 
 const app: express.Application = express();
 
@@ -34,6 +31,10 @@ app.use("/api/user", userRouter);
 app.use("/api/alexa",AlexaRouter);
 app.use("/api/svg",SvgRouter);
 
+if(!process.env.MONGODB_URI){
+  console.log('using dotenv config');
+  dotenv.config();
+}
 
 mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true});
 const db = mongoose.connection;
