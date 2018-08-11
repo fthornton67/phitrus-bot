@@ -13,7 +13,7 @@ import { interval } from 'rxjs';
 })
 export class DevicesComponent implements OnInit {
  
- pubilc devices:any;
+ public devices:any;
   constructor() { }
 
   ngOnInit() {
@@ -29,6 +29,4 @@ source1.subscribe(
     } );
 
   }
-  }
-
 }
