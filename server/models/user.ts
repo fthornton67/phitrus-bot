@@ -1,55 +1,29 @@
 import { Document, Schema, Model, model} from "mongoose";
+import { IUser } from "../_interfaces/iuser";
 
-var bcrypt = require('bcrypt-nodejs');
 
-var UserSchema = new Schema({
-  username: {
-        type: String,
-        unique: true,
-        required: true
-    },
-  password: {
-        type: String,
-        required: true
-    },
-  phone:{
-      type:String,
-      required:true
+export interface IUserModel extends IUser, Document {
+  fullName(): string;
+}
+
+export var UserSchema: Schema = new Schema({
+  createdAt: Date,
+  email: String,
+  firstName: String,
+  lastName: String,
+  password: String,
+  phone: String
+});
+UserSchema.pre("save", function(next) {
+  let now = new Date();
+  if (!this.createdAt) {
+    this.createdAt = now;
   }
+  next();
 });
-
-/*UserSchema.pre('save', function (next) {
-    var user = this;
-    console.log(user);
-    if (this.isModified('password') || this.isNew) {
-        bcrypt.genSalt(10, function (err, salt) {
-            if (err) {
-                return next(err);
-            }
-            bcrypt.hash(user.password, salt, null, function (err, hash) {
-                if (err) {
-                    return next(err);
-                }
-                user.password = hash;
-                next();
-            });
-        });
-    } else {
-        return next();
-    }
-});
-*/
-
-UserSchema.methods.comparePassword = function (passw, cb) {
-    bcrypt.compare(passw, this.password, function (err, isMatch) {
-        if (err) {
-            return cb(err);
-        }
-        cb(null, isMatch);
-    });
+UserSchema.methods.fullName = function(): string {
+  return (this.firstName.trim() + " " + this.lastName.trim());
 };
 
-
-const UserModel = model('User', UserSchema);
-
-export default UserModel;
+export const User: Model<IUserModel> = model<IUserModel>("User", UserSchema);
+export default User;

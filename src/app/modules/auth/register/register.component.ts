@@ -13,7 +13,7 @@ import { of } from 'rxjs/observable/of';
 })
 export class RegisterComponent implements OnInit {
 form:FormGroup =  new FormGroup({
-    username: new FormControl('fthornton67@gmail.com'),
+    email: new FormControl('fthornton67@gmail.com'),
     password: new FormControl('Onward_2012'),
     verify: new FormControl('Onward_2012'),
     phone: new FormControl('2067694805')
