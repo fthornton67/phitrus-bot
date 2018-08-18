@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { AlexaCtrl } from "../controllers/AlexaCtrl";
-import AlexaRequestCtrl from '../controllers/AlexaRequest';
+import AlexaDbCtrl from '../controllers/AlexaDbCtrl';
 
 let alexaVerifier = require('alexa-verifier'); // at the top of our file
 
@@ -23,24 +23,18 @@ function requestVerifier(req, res, next) {
 
 const AlexaRouter: Router = Router();
 const alexaCtrl:AlexaCtrl = new AlexaCtrl();
-const alexaRequests:AlexaRequestCtrl = new AlexaRequestCtrl();
+const alexaDbCtrl:AlexaDbCtrl = new AlexaDbCtrl();
 
 AlexaRouter.get("/",alexaCtrl.root);
-AlexaRouter.get("/get", (request: Request, response: Response) => {
 
-  return response.json({
-    text: "Hello Alexa Get",
-    title: "Greetings.",
-  });
-});
 //https://bot.phitr.us/api/alexa/post
 AlexaRouter.post("/phitr", alexaCtrl.phitr);
 AlexaRouter.post("/post",requestVerifier,alexaCtrl.post);
 AlexaRouter.get("/phitr", alexaCtrl.phitr);
-AlexaRouter.get("/all",alexaRequests.getAll);
-AlexaRouter.get("/count",alexaRequests.count);
-AlexaRouter.get("/countar",alexaRequests.getCountAR);
-AlexaRouter.get("/devices",alexaRequests.getDevices);
+AlexaRouter.get("/all",alexaDbCtrl.getAll);
+AlexaRouter.get("/count",alexaDbCtrl.count);
+AlexaRouter.get("/countar",alexaDbCtrl.getCountAR);
+AlexaRouter.get("/devices",alexaDbCtrl.getDevices);
 
 
 

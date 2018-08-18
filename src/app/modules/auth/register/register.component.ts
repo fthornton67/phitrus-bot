@@ -16,7 +16,7 @@ form:FormGroup =  new FormGroup({
     email: new FormControl('fthornton67@gmail.com'),
     password: new FormControl('Onward_2012'),
     verify: new FormControl('Onward_2012'),
-    phone: new FormControl('2067694805')
+    phone: new FormControl('4253065668')
 
   });
 

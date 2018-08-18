@@ -3,7 +3,10 @@ import { Request, Response, Router } from "express";
 const Alexa = require("ask-sdk");
 const skillBuilder = Alexa.SkillBuilders.custom();
 
-import AlexaRequestCtrl from './AlexaRequest';
+import AlexaDbCtrl from './AlexaDbCtrl';
+
+const alexaDbCtrl = new AlexaDbCtrl();
+
 
 const PhitrGreetingHandler = {
     canHandle(handlerInput) {
@@ -41,7 +44,7 @@ const PhitrActivityHandler = {
             && request.dialogState !== 'COMPLETED';
     },
     handle(handlerInput) {
-           alexaRequestCtrl.insert(handlerInput);
+           alexaDbCtrl.insert(handlerInput);
 
       var request = handlerInput.requestEnvelope.request;
 
@@ -60,7 +63,7 @@ const CompletedPhitrActivityHandler = {
     && request.intent.name === 'phitr_activity';
   },
   handle(handlerInput) {
-         alexaRequestCtrl.insert(handlerInput);
+         alexaDbCtrl.insert(handlerInput);
 
     console.log('Plan My Workout - handle');
            const speechText = 'Cool lets go!';
@@ -119,7 +122,7 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-     alexaRequestCtrl.insert(handlerInput);
+     alexaDbCtrl.insert(handlerInput);
 
     const speechText = "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What\'s up?";
     return handlerInput.responseBuilder
@@ -188,7 +191,7 @@ const CancelAndStopIntentHandler = {
                 || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
-           alexaRequestCtrl.insert(handlerInput);
+           alexaDbCtrl.insert(handlerInput);
 
         const speechText = 'Goodbye!';
 return handlerInput.responseBuilder
@@ -211,7 +214,6 @@ const ErrorHandler = {
   }
 };
 let skill;
-const alexaRequestCtrl = new AlexaRequestCtrl();
 class AlexaCtrl {
   post = (req, res) => {
     if (!skill) {
@@ -258,7 +260,7 @@ class AlexaCtrl {
       });
   };
   root = (req, res) => {
-    alexaRequestCtrl.insert(req);
+    alexaDbCtrl.insert(req);
     res.status(200).send('done')
   };
 }

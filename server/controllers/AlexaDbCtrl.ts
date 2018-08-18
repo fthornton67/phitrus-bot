@@ -1,9 +1,9 @@
-import AlexaRequestModel from "../models/alexaRequest";
+import AlexaDbRequestModel from "../models/alexaDbRequest";
 import BaseCtrl from "./base";
 
 
-export default class AlexaRequestCtrl extends BaseCtrl {
-  model = AlexaRequestModel;
+export default class AlexaDbCtrl extends BaseCtrl {
+  model = AlexaDbRequestModel;
   getCountAR = (req,res)=>{
       
       return this.getCount(req,res);

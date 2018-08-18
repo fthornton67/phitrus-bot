@@ -22,8 +22,8 @@ message = '';
 data: any;
 
 form:FormGroup =  new FormGroup({
-    username: new FormControl('fthornton67@gmail.com'),
-    password: new FormControl('Onward_2012')
+    username: new FormControl(''),
+    password: new FormControl('')
   });
 
 

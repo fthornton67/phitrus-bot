@@ -30,9 +30,9 @@ userRouter.post('/signup', function(req, res) {
     if(err){
       console.log(err);  
     }
-    console.log(item);
+    //console.log(item);
   });
-  console.log(req.body);
+  //console.log(req.body);
  res.json('done');
 });
 userRouter.post('/signin', function(req, res) {
