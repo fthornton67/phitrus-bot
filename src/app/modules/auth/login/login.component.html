@@ -1,0 +1,38 @@
+<div class="ui-panel login-panel animated bounceInDown">
+    <form novalidate (ngSubmit)="onSubmit(form)"  [formGroup]="form">
+
+    <header>
+      <div class="left logo"> Login
+        <a href="#logo"></a>
+      </div>
+      
+      <div class="right">
+        <a href="#close" id="close" class="ui-button close">
+          x
+        </a>
+      </div>
+    </header>
+    <div class="login-form">
+      <div class="subtitle"><div class="subtitle">or<a [routerLink]="['/auth/register']" [queryParams]="{debug: true}" >
+        Register    </a></div></div>
+      <input type="text" placeholder="Username" formControlName="username" />
+      <input type="text" placeholder="Password" type="password" formControlName="password" />
+    </div>
+  
+    <footer>
+      <div class="left social-login">
+        Login with 
+        <i class="fa fa-fw fa-twitter"></i>
+        <i class="fa fa-fw fa-facebook"></i>
+        <i class="fa fa-fw fa-google-plus"></i>
+      </div>
+      
+      <div class="right form-actions">
+          <button type="submit">Login</button>
+
+     </div>
+    </footer>
+    </form>
+  </div>
+
+
