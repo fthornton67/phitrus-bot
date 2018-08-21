@@ -28,8 +28,8 @@ data: any;
     this.http.post('/api/user/signup',value).subscribe(resp => {
       console.log(resp);
     this.data = resp;
-    localStorage.setItem('jwtToken', this.data.token);
-    this.router.navigate(['books']);
+    localStorage.setItem('phitr_token', this.data.token);
+    this.router.navigate(['dashboard']);
   }, err => {
     this.message = err.error.msg;
   });

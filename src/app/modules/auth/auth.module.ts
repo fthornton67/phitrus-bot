@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuardService } from './_services/auth-guard.service';
+import { AuthService } from './_services/auth.service';
+
 
 @NgModule({
   imports: [
@@ -18,6 +21,7 @@ import { RegisterComponent } from './register/register.component';
   declarations: [AuthComponent, LoginComponent, RegisterComponent],
   bootstrap: [
     AuthComponent
-  ]
+  ],
+  providers: [AuthGuardService,AuthService]
 })
 export class AuthModule { }

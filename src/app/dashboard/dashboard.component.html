@@ -6,8 +6,9 @@
 
 <h3>Feeds</h3>
 <app-ui-notes *ngIf="!(feeds$ | async)?.length" type="info" text="No feed, add one."></app-ui-notes>
-<app-attendee></app-attendee>
-<app-devices></app-devices>
+<!--app-attendee></app-attendee>
+<app-devices></app-devices-->
+<router-outlet></router-outlet>
 <!--div class="feed animation" *ngFor="let item of feeds$ | async">
   <a>{{item.name}}</a>
   <div class="text">

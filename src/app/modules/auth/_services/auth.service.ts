@@ -8,16 +8,19 @@ const jwtHelper = new JwtHelperService();
 @Injectable()
 export class AuthService {
 
-  constructor(public jwtHelper: JwtHelperService) {}
+  constructor() {}
 
   // ...
   public isAuthenticated(): boolean {
 
-    const token = localStorage.getItem('token');
-
+    const token = localStorage.getItem('phitr_token');
+    if(token){
+    var dToken = jwtHelper.decodeToken(token);
+    console.log(dToken);
     // Check whether the token is expired and return
     // true or false
-    return !this.jwtHelper.isTokenExpired(token);
+    return !jwtHelper.isTokenExpired(token);
+    }else{return false;}
   }
 
 }

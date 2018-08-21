@@ -1,9 +1,11 @@
 import { Request, Response, Router } from "express";
 import { User } from '../models/user';
+import { UserCtrl } from '../controllers/UserCtrl';
+
 var jwt = require('jsonwebtoken');
 
 const userRouter: Router = Router();
-
+const userCtrl:UserCtrl = new UserCtrl();
 
 const getToken = function (headers) {
   if (headers && headers.authorization) {
@@ -28,17 +30,13 @@ userRouter.post('/signup', function(req, res) {
   
   user.save((err,item)=>{
     if(err){
-      console.log(err);  
+      res.json(err);
+    }else{
+      res.json(item);
     }
-    //console.log(item);
   });
-  //console.log(req.body);
- res.json('done');
 });
-userRouter.post('/signin', function(req, res) {
-
-  res.json('done');
-});
+userRouter.post('/signin',userCtrl.login);
 
 
 export { userRouter };

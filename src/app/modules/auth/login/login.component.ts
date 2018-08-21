@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router } from "@angular/router";
+import { Router,ActivatedRoute } from "@angular/router";
 import { Observable } from 'rxjs/Observable';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
 loginData = { username:'', password:'' };
 message = '';
 data: any;
+return: string = '';
 
 form:FormGroup =  new FormGroup({
     username: new FormControl(''),
@@ -28,22 +29,24 @@ form:FormGroup =  new FormGroup({
 
 
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router, private route:ActivatedRoute) { 
   }
 
   public onSubmit({ value, valid }: { value: any, valid: boolean }) {
     this.http.post('/api/user/signin',value).subscribe(resp => {
-      console.log(resp);
     this.data = resp;
-    localStorage.setItem('jwtToken', this.data.token);
-    this.router.navigate(['books']);
+    localStorage.setItem('phitr_token', this.data.token);
+    this.router.navigateByUrl(this.return);
+
   }, err => {
     this.message = err.error.msg;
   });
   }
 
   ngOnInit() {
-
+// Get the query params
+    this.route.queryParams
+      .subscribe(params => this.return = params['return'] || '/dashboard');
   }
 
 }

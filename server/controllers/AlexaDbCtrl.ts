@@ -1,12 +1,34 @@
 import AlexaDbRequestModel from "../models/alexaDbRequest";
+import PhitrDeviceModel from '../models/phitrDevice';
+import Account from '../models/account';
 import BaseCtrl from "./base";
 
 
 export default class AlexaDbCtrl extends BaseCtrl {
   model = AlexaDbRequestModel;
+  deviceModel = PhitrDeviceModel;
+  accountModel = Account
+
   getCountAR = (req,res)=>{
       
       return this.getCount(req,res);
+  };
+  
+  getPhitrAccountByAlexaId = (req,res)=>{
+
+  };
+  userHasPhitrAccount = (userId)=>{ 
+    console.log(userId);
+    return new Promise((resolve,reject)=>{
+     this.deviceModel.findOne({'amz_alx_uid':userId},(err,user) =>{
+       if(err){
+         reject(err);
+       }
+       else{
+         resolve(user);
+       }
+     });
+  });
   };
 
   getDevices = (req,res) => {
@@ -18,7 +40,6 @@ export default class AlexaDbCtrl extends BaseCtrl {
   };
    // Insert
   insert = (reqData) => {
-    console.log('saving request');
     const obj = new this.model(reqData);
     obj.request = reqData;
     obj.save((err, item) => {
@@ -30,7 +51,6 @@ export default class AlexaDbCtrl extends BaseCtrl {
       if (err) {
         console.error(err);
       }
-          console.log('save request complete');
 
       
     });

@@ -17,16 +17,17 @@ import { ISimpleResponse } from './shared/interfaces/simple.interface';
 })
 export class AppComponent implements OnInit {
 
-  observable$: Observable<ISimpleResponse>;
+  //observable$: Observable<ISimpleResponse>;
 
   constructor(private http: HttpClient, private store: Store<IAppState>) {}
 
   ngOnInit() {
 
-    this.observable$ = this.http.get<ISimpleResponse>('/api/public/simple');
+    /*this.observable$ = this.http.get<ISimpleResponse>('/api/public/simple');
 
     this.store.dispatch({
       type: USER_GET
     });
+    */
   }
 }

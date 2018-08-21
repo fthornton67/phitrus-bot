@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AuthModule } from './modules/auth/auth.module';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,11 +18,13 @@ import { FeedEffects } from './store/feed/feed.effects';
 import { ProfileEffects } from './store/profile/profile.effects';
 import { environment } from '../environments/environment';
 
+
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    AuthModule,
     BrowserModule,
     SharedModule,
     FormsModule,
