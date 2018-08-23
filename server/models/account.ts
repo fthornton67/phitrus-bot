@@ -1,9 +1,9 @@
 import { Document, Schema, Model, model} from "mongoose";
-import { IUser } from "../_interfaces/iuser";
+import { IAccount } from "../_interfaces/iaccount";
 var bcrypt = require('bcrypt');
 var BCRYPT_SALT_ROUNDS = 12;
 
-export interface IAccountModel extends IUser, Document {
+export interface AccountModel extends IAccount, Document {
 }
 
 export var accountSchema: Schema = new Schema({
@@ -17,5 +17,5 @@ this.createdAt = new Date();
   next();
   });
 
-export const Account: Model<IAccountModel> = model<IAccountModel>("phitr_account", accountSchema);
+export const Account: Model<IAccount> = model<IAccount>("phitr_account", accountSchema);
 export default Account;

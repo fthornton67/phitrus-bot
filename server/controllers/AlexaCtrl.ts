@@ -82,9 +82,13 @@ const PhitrAccountHandler =  {
     var accountInfo = await alexaDbCtrl.userHasPhitrAccount(request.session.user.userId).then(function(response){
       this.resp = response;
     }.bind(this));
-  
+  if(this.resp != null){
+
+    
+  }
      console.log(this.resp.phitr_account !==undefined);
-     console.log(this.resp);
+     console.log(this.resp.amz_alx_uid);
+     console.log(this.resp.phitr_account);
 if(this.resp.phitr_account !==undefined){
   const speechText =  "I have your account info ! What do you want to know?" ;
         return handlerInput.responseBuilder

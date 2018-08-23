@@ -7,7 +7,7 @@ import BaseCtrl from "./base";
 export default class AlexaDbCtrl extends BaseCtrl {
   model = AlexaDbRequestModel;
   deviceModel = PhitrDeviceModel;
-  accountModel = Account
+  accountModel = Account;
 
   getCountAR = (req,res)=>{
       
@@ -18,7 +18,17 @@ export default class AlexaDbCtrl extends BaseCtrl {
 
   };
   userHasPhitrAccount = async (userId)=>{ 
-    return this.deviceModel.findOne({'amz_alx_uid':userId}).exec()
+    return this.accountModel.findOne({'amz_alx_uid':userId}).exec(function(err,user){
+      if(err){
+        console.log(err);
+        return this.accountModel.insert({'amz_alx_uid':userId}).exec();
+      }
+      else{
+        console.log(user);
+        return this.accountModel.findOne({'amz_alx_uid':userId}).exec();
+      }
+    });
+    //return this.deviceModel.findOne({'amz_alx_uid':userId}).exec();
   };
 
   getDevices = (req,res) => {
