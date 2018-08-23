@@ -61,12 +61,8 @@ const PhitrActivityHandler = {
       .getResponse();
   }
 };
-let hInput;
-let resp;
 
-
-
-const PhitrAccountHandler =  {
+const PhitrAccountHandler = {
   canHandle(handlerInput) {
     var request = handlerInput.requestEnvelope.request;
     return (
@@ -76,33 +72,36 @@ const PhitrAccountHandler =  {
     );
   },
   async handle(handlerInput) {
-    this.hInput = handlerInput; 
     var request = handlerInput.requestEnvelope;
-     this.resp = "resp";
-    var accountInfo = await alexaDbCtrl.userHasPhitrAccount(request.session.user.userId).then(function(response){
-      this.resp = response;
-    }.bind(this));
-  if(this.resp != null){
+    console.log(request.session.user.userId);
+    var hasAccount = await alexaDbCtrl.userHasPhitrAccount(
+      request.session.user.userId
+    );
+    console.log(hasAccount);
 
-    
-  }
-     console.log(this.resp.phitr_account !==undefined);
-     console.log(this.resp.amz_alx_uid);
-     console.log(this.resp.phitr_account);
-if(this.resp.phitr_account !==undefined){
-  const speechText =  "I have your account info ! What do you want to know?" ;
+    if (hasAccount) {
+      var speechText = "I have your account info ! What do you want to know?";
+      return handlerInput.responseBuilder
+        .speak(speechText)
+        .withSimpleCard("phitr account", speechText + this.resp.amz_alx_uid)
+        .getResponse();
+    } else {
+      var accessToken =
+        handlerInput.requestEnvelope.context.System.user.accessToken;
+      if (accessToken == undefined) {
+        // The request did not include a token, so tell the user to link
+        // accounts and return a LinkAccount card
+        var speechText =
+          "You must have a phitr account to configure your account. " +
+          "Please use the Alexa app to link your Amazon account " +
+          "with your phitr Account.";
+
         return handlerInput.responseBuilder
           .speak(speechText)
-          .withSimpleCard("phitr account", speechText + this.resp.amz_alx_uid)
+          .withLinkAccountCard()
           .getResponse();
-}else
-  {
-  const speechText =  "You don't have a phitr account! Use the link in your Alexa mobile app to link your account" ;
-        return handlerInput.responseBuilder
-          .speak(speechText)
-          .withSimpleCard("phitr account", speechText)
-          .getResponse();
-  }
+      }
+    }
   }
 };
 
@@ -120,7 +119,6 @@ const PhitrAccountDialogHandler = {
     return handlerInput.responseBuilder
       .addDelegateDirective(request.intent)
       .getResponse();
-
   }
 };
 

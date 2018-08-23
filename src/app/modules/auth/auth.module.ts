@@ -6,9 +6,11 @@ import { routes } from './auth.router';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './login/login.component';
+import { AppLinkComponent } from './app-link/app-link.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuardService } from './_services/auth-guard.service';
 import { AuthService } from './_services/auth.service';
+import { AppLinkComponent } from './app-link/app-link.component';
 
 
 @NgModule({
@@ -18,7 +20,7 @@ import { AuthService } from './_services/auth.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [AuthComponent, LoginComponent, RegisterComponent],
+  declarations: [AppLinkComponent,AuthComponent, LoginComponent, RegisterComponent],
   bootstrap: [
     AuthComponent
   ],

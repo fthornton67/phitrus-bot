@@ -1,13 +1,13 @@
 import AlexaDbRequestModel from "../models/alexaDbRequest";
 import PhitrDeviceModel from '../models/phitrDevice';
-import Account from '../models/account';
+import PhitrAccount from '../models/account';
 import BaseCtrl from "./base";
 
 
 export default class AlexaDbCtrl extends BaseCtrl {
   model = AlexaDbRequestModel;
   deviceModel = PhitrDeviceModel;
-  accountModel = Account;
+  phitrAccount = PhitrAccount;
 
   getCountAR = (req,res)=>{
       
@@ -17,18 +17,29 @@ export default class AlexaDbCtrl extends BaseCtrl {
   getPhitrAccountByAlexaId = (req,res)=>{
 
   };
-  userHasPhitrAccount = async (userId)=>{ 
-    return this.accountModel.findOne({'amz_alx_uid':userId}).exec(function(err,user){
+  addAlexaUserId = (userId)=>{
+    const acct = new this.phitrAccount({'amz_alx_uid':userId});
+    acct.save((err,user)=>{
       if(err){
         console.log(err);
-        return this.accountModel.insert({'amz_alx_uid':userId}).exec();
-      }
-      else{
+      }else{
         console.log(user);
-        return this.accountModel.findOne({'amz_alx_uid':userId}).exec();
+        return user;
       }
+    },function(err){
+      console.log(err);
     });
-    //return this.deviceModel.findOne({'amz_alx_uid':userId}).exec();
+  }
+  userHasPhitrAccount = async (userId)=>{ 
+    this.phitrAccount.findOne({'amz_alx_uid':userId},function(err,user){
+      if(!user){
+        var createdUser = this.addAlexaUserId(this.userId);
+        return createdUser.phitr_uid!== undefined;
+      }
+      
+      return user.phitr_uid != undefined;
+    }.bind(this));
+      
   };
 
   getDevices = (req,res) => {
