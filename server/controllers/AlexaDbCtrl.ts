@@ -17,18 +17,15 @@ export default class AlexaDbCtrl extends BaseCtrl {
   getPhitrAccountByAlexaId = (req,res)=>{
 
   };
-  userHasPhitrAccount = (userId)=>{ 
-    console.log(userId);
-    return new Promise((resolve,reject)=>{
+  userHasPhitrAccount = async (userId)=>{ 
      this.deviceModel.findOne({'amz_alx_uid':userId},(err,user) =>{
        if(err){
-         reject(err);
+         return err;
        }
        else{
-         resolve(user);
+          return (user.phitr_uid !== undefined);
        }
      });
-  });
   };
 
   getDevices = (req,res) => {

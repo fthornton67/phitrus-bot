@@ -61,8 +61,16 @@ const PhitrActivityHandler = {
       .getResponse();
   }
 };
-
-const PhitrAccountHandler = {
+let hInput;
+const  accountResponse= function(response,handlerInput){
+  console.log(response);
+  const speechText = "I have your account info ! " + JSON.stringify(response);
+  return handlerInput.responseBuilder
+          .speak(speechText)
+          .withSimpleCard("phitr account", speechText)
+          .getResponse();
+}
+const PhitrAccountHandler =  {
   canHandle(handlerInput) {
     var request = handlerInput.requestEnvelope.request;
     return (
@@ -72,26 +80,16 @@ const PhitrAccountHandler = {
     );
   },
   handle(handlerInput) {
+    this.hInput = handlerInput; 
     var request = handlerInput.requestEnvelope;
-
-    alexaDbCtrl
-      .userHasPhitrAccount(request.session.user.userId)
-      .then(() => {
-        const speechText = "I have your account info!";
-        return handlerInput.responseBuilder
-          .speak(speechText)
-          .withSimpleCard("phitr account", speechText)
-          .getResponse();
-      })
-      .catch(() => {
-        const speechText = "I have a problem getting your account info!";
-        return handlerInput.responseBuilder
-          .speak(speechText)
-          .withSimpleCard("phitr account", speechText)
-          .getResponse();
-      });
+       alexaDbCtrl.userHasPhitrAccount(request.session.user.userId).
+       then(
+         (response)=>{
+         accountResponse(response,handlerInput);
+       });
   }
 };
+
 const PhitrAccountDialogHandler = {
   canHandle(handlerInput) {
     var request = handlerInput.requestEnvelope.request;
@@ -102,21 +100,10 @@ const PhitrAccountDialogHandler = {
     );
   },
   handle(handlerInput) {
-    var request = handlerInput.requestEnvelope;
-    console.log(request.session)
-    alexaDbCtrl.userHasPhitrAccount(request.session.user.userId).then((response)=>{
-      const speechText = "I will get your account info!";
+    var request = handlerInput.requestEnvelope.request;
     return handlerInput.responseBuilder
-      .speak(speechText)
-      .withSimpleCard("phitr account", response)
+      .addDelegateDirective(request.intent)
       .getResponse();
-    }).catch((err)=>{
-        const speechText = "I can not get your info!";
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .withSimpleCard("phitr account", err)
-      .getResponse();
-    });
 
   }
 };
