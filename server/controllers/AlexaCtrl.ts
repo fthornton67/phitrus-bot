@@ -62,14 +62,10 @@ const PhitrActivityHandler = {
   }
 };
 let hInput;
-const  accountResponse= function(response,handlerInput){
-  console.log(response);
-  const speechText = "I have your account info ! " + JSON.stringify(response);
-  return handlerInput.responseBuilder
-          .speak(speechText)
-          .withSimpleCard("phitr account", speechText)
-          .getResponse();
-}
+let resp;
+
+
+
 const PhitrAccountHandler =  {
   canHandle(handlerInput) {
     var request = handlerInput.requestEnvelope.request;
@@ -79,14 +75,30 @@ const PhitrAccountHandler =  {
       request.dialogState === "COMPLETED"
     );
   },
-  handle(handlerInput) {
+  async handle(handlerInput) {
     this.hInput = handlerInput; 
     var request = handlerInput.requestEnvelope;
-       alexaDbCtrl.userHasPhitrAccount(request.session.user.userId).
-       then(
-         (response)=>{
-         accountResponse(response,handlerInput);
-       });
+     this.resp = "resp";
+    var accountInfo = await alexaDbCtrl.userHasPhitrAccount(request.session.user.userId).then(function(response){
+      this.resp = response;
+    }.bind(this));
+  
+     console.log(this.resp.phitr_account !==undefined);
+     console.log(this.resp);
+if(this.resp.phitr_account !==undefined){
+  const speechText =  "I have your account info ! What do you want to know?" ;
+        return handlerInput.responseBuilder
+          .speak(speechText)
+          .withSimpleCard("phitr account", speechText + this.resp.amz_alx_uid)
+          .getResponse();
+}else
+  {
+  const speechText =  "You don't have a phitr account! Use the link in your Alexa mobile app to link your account" ;
+        return handlerInput.responseBuilder
+          .speak(speechText)
+          .withSimpleCard("phitr account", speechText)
+          .getResponse();
+  }
   }
 };
 
