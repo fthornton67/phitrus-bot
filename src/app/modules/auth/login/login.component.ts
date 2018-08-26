@@ -16,9 +16,8 @@ import { of } from 'rxjs/observable/of';
 
 
 export class LoginComponent implements OnInit {
-  
+public message:String;  
 loginData = { username:'', password:'' };
-message = '';
 data: any;
 return: string = '';
 
@@ -36,10 +35,12 @@ form:FormGroup =  new FormGroup({
     this.http.post('/api/user/signin',value).subscribe(resp => {
     this.data = resp;
     localStorage.setItem('phitr_token', this.data.token);
+    console.log(this.return);
     this.router.navigateByUrl(this.return);
 
   }, err => {
-    this.message = err.error.msg;
+    console.log(err);
+    this.message = " Authentication Error";
   });
   }
 

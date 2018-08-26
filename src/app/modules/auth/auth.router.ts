@@ -11,13 +11,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Store } from '@ngrx/store';
+import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
+
 
 export const routes: Route[] = [
   {
-    path: '',
+    path: 'auth',
     component: AuthComponent,
     children:[
-      {path:'',pathMatch:'full',redirectTo:'auth/login'},
       {
     path: 'login',
     component: LoginComponent
@@ -27,7 +28,8 @@ export const routes: Route[] = [
     component: RegisterComponent
   },{
     path:'applink',
-    component:AppLinkComponent
+    component:AppLinkComponent,
+    canActivate: [AuthGuard] 
   }
     ]
   }

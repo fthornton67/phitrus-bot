@@ -2,6 +2,8 @@ import { pbkdf2, randomBytes } from "crypto";
 import { NextFunction, Request, Response, Router } from "express";
 import { sign } from "jsonwebtoken";
 import { digest, length, secret } from "../config";
+import AlexaDbCtrl from '../controllers/AlexaDbCtrl';
+
 
 const loginRouter: Router = Router();
 
@@ -31,7 +33,15 @@ loginRouter.post("/signup", (request: Request, response: Response, next: NextFun
     });
   });
 });
-
+loginRouter.post('/viewRequest',(req,res)=>{
+  console.log(req);
+//const alexaDbCtrl:AlexaDbCtrl = new AlexaDbCtrl();
+//alexaDbCtrl.insert(JSON.stringify(JSON.stringify(req)));
+res.json('done');
+});
+loginRouter.get('/token',(req,res)=>{
+  res.json('token');
+});
 // login method
 loginRouter.post("/", (request: Request, response: Response, next: NextFunction) => {
 

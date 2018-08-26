@@ -11,6 +11,7 @@ import { publicRouter } from "./routes/public";
 import { userRouter } from "./routes/user";
 import { AlexaRouter } from "./routes/alexaRouter";
 import { DeviceRouter } from "./routes/deviceRouter";
+import { TokenRouter } from  "./routes/tokenRouter";
 import { SvgRouter } from './routes/svgRouter';
 import * as dotenv from 'dotenv';
 
@@ -31,7 +32,8 @@ app.use("/api/feed", feedRouter);
 app.use("/api/user", userRouter);
 app.use("/api/alexa",AlexaRouter);
 app.use("/api/svg",SvgRouter);
-app.use('/api/devices',DeviceRouter)// secure api
+app.use('/api/devices',DeviceRouter);// secure api
+app.use ('/api/token',TokenRouter);
 
 if(!process.env.MONGODB_URI){
   console.log('using dotenv config');

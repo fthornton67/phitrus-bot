@@ -15,10 +15,9 @@
   <div class="login-form">
     <div class="subtitle"><div class="subtitle">or<a [routerLink]="['/auth/login']" [queryParams]="{debug: true}" >
       Login    </a></div></div>
-    <input placeholder="jackson@phitr.us" type="text" formControlName="email" />
-    <input placeholder="Password" type="password" formControlName="password" />
-    <input placeholder="Verify Password" type="password" formControlName="verify" />
-    <input placeholder="1-555-555-555" type="text" formControlName="phone" />
+  
+    <input placeholder="" type="text" formControlName="params" />
+
   </div>
 
   <footer>
@@ -30,7 +29,7 @@
     </div>
     
     <div class="right form-actions">
-        <button type="submit">Register</button>
+        <button type="submit">Link Account</button>
 
    </div>
   </footer>

@@ -92,7 +92,7 @@ const PhitrAccountHandler = {
         // The request did not include a token, so tell the user to link
         // accounts and return a LinkAccount card
         var speechText =
-          "You must have a phitr account to configure your account. " +
+          "You must have a phitr account to get that information. " +
           "Please use the Alexa app to link your Amazon account " +
           "with your phitr Account.";
 

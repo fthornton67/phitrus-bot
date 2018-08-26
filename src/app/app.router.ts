@@ -3,9 +3,10 @@ import { AuthGuardService as AuthGuard } from './modules/auth/_services/auth-gua
 
 
 export const routes: Route[] = [
-  { path: '', pathMatch:'full',redirectTo: 'auth/login' },
-  { loadChildren: 'app/modules/auth/auth.module#AuthModule', path: 'auth' },
   { loadChildren: 'app/dashboard/dashboard.module#DashboardModule',canActivate: [AuthGuard] , path: 'dashboard' },
   { loadChildren: 'app/profile/profile.module#ProfileModule', path: 'profile',canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '', canActivate: [AuthGuard] }
+  { loadChildren: 'app/modules/auth/auth.module#AuthModule', path: 'auth' },
+  { loadChildren: 'app/modules/home/home.module#HomeModule', path: 'home'},
+  { path: '', pathMatch:'full',redirectTo: 'auth/login' },
+  { path: '**', redirectTo: 'auth/login' } // should be 404
 ];

@@ -12,6 +12,7 @@
         </a>
       </div>
     </header>
+    <div class="login-form" *ngIf="message">**{{message}}**</div>
     <div class="login-form">
       <div class="subtitle"><div class="subtitle">or<a [routerLink]="['/auth/register']" [queryParams]="{debug: true}" >
         Register    </a></div></div>

@@ -7,11 +7,15 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class AuthGuardService implements CanActivate {
 
-  constructor(public auth: AuthService, public router: Router) {}
+  constructor(public auth: AuthService, public router: Router) {
+
+  }
 
   canActivate(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): boolean {
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['/auth/login'], {
+        preserveQueryParams:true,
+        queryParamsHandling: "merge",
         queryParams: {
           return: state.url
         }
