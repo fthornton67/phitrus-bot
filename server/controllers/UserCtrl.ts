@@ -6,6 +6,8 @@ var jwt = require('jsonwebtoken');
 export default class UserCtrl extends BaseCtrl {
   model = UserModel;
   login = (req, res) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
     this.model.findOne({ username: req.body.username }, (err, user) => {
       if (!user) { return res.sendStatus(403); }
       user.comparePassword(req.body.password, (error, isMatch) => {

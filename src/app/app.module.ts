@@ -42,13 +42,12 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot(
       routes,
       {
-        useHash: true,
         paramsInheritanceStrategy:'always'
       }
     )
   ],
   providers: [
-    WeatherService,Location, {provide: LocationStrategy, useClass: PathLocationStrategy}
+    WeatherService,Location,{provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [
     AppComponent

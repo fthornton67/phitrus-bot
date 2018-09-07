@@ -34,6 +34,9 @@ app.use("/api/alexa",AlexaRouter);
 app.use("/api/svg",SvgRouter);
 app.use('/api/devices',DeviceRouter);// secure api
 app.use ('/api/token',TokenRouter);
+app.use ('/auth/applink',(req,res)=>{
+  res.json(req.url);
+});
 
 if(!process.env.MONGODB_URI){
   console.log('using dotenv config');
@@ -59,7 +62,7 @@ if (app.get("env") === "production") {
 
 // catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next) => {
-  const err = new Error("Not Found");
+  const err = new Error("Express Not Found");
   next(err);
 });
 
@@ -70,7 +73,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(err.status || 500);
   res.json({
     error: {err},
-    message: err.message,
+    message: "Express error:" + err.message,
+    url:req.url
   });
 });
 
