@@ -7,6 +7,8 @@ import { routes } from './dashboard.router';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { DevicesComponent } from './devices/devices.component';
+import { AddDeviceComponent } from './add-device/add-device.component';
+import { DeviceGuardService } from '../modules/auth/_services/device-guard.service';
 
 @NgModule({
   imports: [
@@ -19,10 +21,12 @@ import { DevicesComponent } from './devices/devices.component';
   ],
   declarations: [
     DashboardComponent,
-    DevicesComponent
+    DevicesComponent,
+    AddDeviceComponent
   ],
   bootstrap: [
     DashboardComponent
-  ]
+  ],
+  providers:[DeviceGuardService]
 })
 export class DashboardModule {}

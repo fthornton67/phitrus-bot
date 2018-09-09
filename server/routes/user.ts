@@ -1,34 +1,42 @@
 import { Request, Response, Router } from "express";
+import { User } from '../models/user';
+import { UserCtrl } from '../controllers/UserCtrl';
+
+var jwt = require('jsonwebtoken');
 
 const userRouter: Router = Router();
+const userCtrl:UserCtrl = new UserCtrl();
 
-const user = {
-  address: {
-    city: "Gwenborough",
-    geo: {
-      lat: "-37.3159",
-      lng: "81.1496",
-    },
-    street: "Kulas Light",
-    suite: "Apt. 556",
-    zipcode: "92998-3874",
-  },
-  company: {
-    bs: "harness real-time e-markets",
-    catchPhrase: "Multi-layered client-server neural-net",
-    name: "Romaguera-Crona",
-  },
-  email: "Sincere@april.biz",
-  id: 1,
-  name: "Leanne Graham",
-  phone: "1-770-736-8031 x56442",
-  username: "Bret",
-  website: "hildegard.org",
+const getToken = function (headers) {
+  if (headers && headers.authorization) {
+    var parted = headers.authorization.split(' ');
+    if (parted.length === 2) {
+      return parted[1];
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
 };
-
-userRouter.get("/", (request: Request, response: Response) => {
-
-  response.json(user);
+userRouter.get('/',function(req,res){
+  res.json({'action':'operationx'});
 });
+userRouter.get('/test',function(req,res){
+  res.json('done');
+});
+userRouter.post('/signup', function(req, res) {
+  const user = new User(req.body);
+  
+  user.save((err,item)=>{
+    if(err){
+      res.json(err);
+    }else{
+      res.json(item);
+    }
+  });
+});
+userRouter.post('/signin',userCtrl.login);
+
 
 export { userRouter };

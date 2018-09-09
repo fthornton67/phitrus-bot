@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { NgModule } from '@angular/core';
+import { AuthModule } from './modules/auth/auth.module';
+import { HomeModule } from './modules/home/home.module';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,11 +20,14 @@ import { FeedEffects } from './store/feed/feed.effects';
 import { ProfileEffects } from './store/profile/profile.effects';
 import { environment } from '../environments/environment';
 
+
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    AuthModule,
+    HomeModule,
     BrowserModule,
     SharedModule,
     FormsModule,
@@ -36,12 +42,12 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot(
       routes,
       {
-        useHash: true
+        paramsInheritanceStrategy:'always'
       }
     )
   ],
   providers: [
-    WeatherService
+    WeatherService,Location,{provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [
     AppComponent

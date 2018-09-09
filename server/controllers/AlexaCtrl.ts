@@ -1,102 +1,178 @@
 import { Request, Response, Router } from "express";
+
 //import * as Alexa from 'ask-sdk';
 const Alexa = require("ask-sdk");
 const skillBuilder = Alexa.SkillBuilders.custom();
 
-import AlexaRequestCtrl from './AlexaRequest';
+import AlexaDbCtrl from "./AlexaDbCtrl";
 
+const alexaDbCtrl = new AlexaDbCtrl();
+
+const RequestLog = {
+  process(handlerInput) {
+    alexaDbCtrl.insert(handlerInput);
+    return;
+  }
+};
 const PhitrGreetingHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'phitr_greeting';
-    },
-    handle(handlerInput) {
-        const speechText = 'Hello World!';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('Hello World', speechText)
-            .getResponse();
-    }
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "phitr_greeting"
+    );
+  },
+  handle(handlerInput) {
+    const speechText = "Hello World!";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard("Hello World", speechText)
+      .getResponse();
+  }
 };
 
 const PhitrWorkoutHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'phitr_workout';
-    },
-    handle(handlerInput) {
-        const speechText = 'Hello World!';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('phitr workout', speechText)
-            .getResponse();
-    }
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "phitr_workout"
+    );
+  },
+  handle(handlerInput) {
+    const speechText = "Hello World!";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard("phitr workout", speechText)
+      .getResponse();
+  }
 };
 const PhitrActivityHandler = {
-  
-    canHandle(handlerInput) {
-      var request = handlerInput.requestEnvelope.request;
-        return request.type === 'IntentRequest'
-            && request.intent.name === 'phitr_activity'
-            && request.dialogState !== 'COMPLETED';
-    },
-    handle(handlerInput) {
-           alexaRequestCtrl.insert(handlerInput);
-
-      var request = handlerInput.requestEnvelope.request;
-
-  return handlerInput.responseBuilder
+  canHandle(handlerInput) {
+    var request = handlerInput.requestEnvelope.request;
+    return (
+      request.type === "IntentRequest" &&
+      request.intent.name === "phitr_activity" &&
+      request.dialogState !== "COMPLETED"
+    );
+  },
+  handle(handlerInput) {
+    var request = handlerInput.requestEnvelope.request;
+    return handlerInput.responseBuilder
       .addDelegateDirective(request.intent)
       .getResponse();
-}
-
+  }
 };
 
+const PhitrAccountHandler = {
+  canHandle(handlerInput) {
+    var request = handlerInput.requestEnvelope.request;
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "phitr_account" &&
+      request.dialogState === "COMPLETED"
+    );
+  },
+  async handle(handlerInput) {
+    var request = handlerInput.requestEnvelope;
+    console.log(request.session.user.userId);
+    var hasAccount = await alexaDbCtrl.userHasPhitrAccount(
+      request.session.user.userId
+    );
+    console.log(hasAccount);
+
+    if (hasAccount) {
+      var speechText = "I have your account info ! What do you want to know?";
+      return handlerInput.responseBuilder
+        .speak(speechText)
+        .withSimpleCard("phitr account", speechText + this.resp.amz_alx_uid)
+        .getResponse();
+    } else {
+      var accessToken =
+        handlerInput.requestEnvelope.context.System.user.accessToken;
+      if (accessToken == undefined) {
+        // The request did not include a token, so tell the user to link
+        // accounts and return a LinkAccount card
+        var speechText =
+          "You must have a phitr account to get that information. " +
+          "Please use the Alexa app to link your Amazon account " +
+          "with your phitr Account.";
+
+        return handlerInput.responseBuilder
+          .speak(speechText)
+          .withLinkAccountCard()
+          .getResponse();
+      }
+    }
+  }
+};
+
+const PhitrAccountDialogHandler = {
+  canHandle(handlerInput) {
+    var request = handlerInput.requestEnvelope.request;
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "phitr_account" &&
+      request.dialogState !== "COMPLETED"
+    );
+  },
+  handle(handlerInput) {
+    var request = handlerInput.requestEnvelope.request;
+    return handlerInput.responseBuilder
+      .addDelegateDirective(request.intent)
+      .getResponse();
+  }
+};
 
 const CompletedPhitrActivityHandler = {
   canHandle(handlerInput) {
     const request = handlerInput.requestEnvelope.request;
-    return request.type === 'IntentRequest' 
-    && request.intent.name === 'phitr_activity';
+    return (
+      request.type === "IntentRequest" &&
+      request.intent.name === "phitr_activity"
+    );
   },
   handle(handlerInput) {
-         alexaRequestCtrl.insert(handlerInput);
+    alexaDbCtrl.insert(handlerInput);
 
-    console.log('Plan My Workout - handle');
-           const speechText = 'Cool lets go!';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('phitr workout', speechText)
-            .getResponse();
-
+    console.log("Plan My Workout - handle");
+    const speechText = "Cool lets go!";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard("phitr workout", speechText)
+      .getResponse();
   }
-}
+};
 
 function getSlotValues(filledSlots) {
   const slotValues = {};
 
   console.log(`The filled slots: ${JSON.stringify(filledSlots)}`);
-  Object.keys(filledSlots).forEach((item) => {
+  Object.keys(filledSlots).forEach(item => {
     const name = filledSlots[item].name;
 
-    if (filledSlots[item] &&
+    if (
+      filledSlots[item] &&
       filledSlots[item].resolutions &&
       filledSlots[item].resolutions.resolutionsPerAuthority[0] &&
       filledSlots[item].resolutions.resolutionsPerAuthority[0].status &&
-      filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code) {
-      switch (filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code) {
-        case 'ER_SUCCESS_MATCH':
+      filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code
+    ) {
+      switch (
+        filledSlots[item].resolutions.resolutionsPerAuthority[0].status.code
+      ) {
+        case "ER_SUCCESS_MATCH":
           slotValues[name] = {
             synonym: filledSlots[item].value,
-            resolved: filledSlots[item].resolutions.resolutionsPerAuthority[0].values[0].value.name,
-            isValidated: true,
+            resolved:
+              filledSlots[item].resolutions.resolutionsPerAuthority[0].values[0]
+                .value.name,
+            isValidated: true
           };
           break;
-        case 'ER_SUCCESS_NO_MATCH':
+        case "ER_SUCCESS_NO_MATCH":
           slotValues[name] = {
             synonym: filledSlots[item].value,
             resolved: filledSlots[item].value,
-            isValidated: false,
+            isValidated: false
           };
           break;
         default:
@@ -106,7 +182,7 @@ function getSlotValues(filledSlots) {
       slotValues[name] = {
         synonym: filledSlots[item].value,
         resolved: filledSlots[item].value,
-        isValidated: false,
+        isValidated: false
       };
     }
   }, this);
@@ -119,9 +195,10 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-     alexaRequestCtrl.insert(handlerInput);
+    alexaDbCtrl.insert(handlerInput);
 
-    const speechText = "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What\'s up?";
+    const speechText =
+      "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What's up?";
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
@@ -140,62 +217,72 @@ const SessionEndedRequestHandler = {
 };
 
 const PauseIntentHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.PauseIntent';
-    },
-    handle(handlerInput) {
-        const speechText = 'Pause Audio';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .reprompt(speechText)
-            .withSimpleCard('phitr pause', speechText)
-            .getResponse();
-    }
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "AMAZON.PauseIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText = "Pause Audio";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("phitr pause", speechText)
+      .getResponse();
+  }
 };
 const ResumeIntentHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.ResumeIntent';
-    },
-    handle(handlerInput) {
-        const speechText = 'Resume Audio';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .reprompt(speechText)
-            .withSimpleCard('phitr resume.', speechText)
-            .getResponse();
-    }
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "AMAZON.ResumeIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText = "Resume Audio";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("phitr resume.", speechText)
+      .getResponse();
+  }
 };
 const HelpIntentHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
-    },
-    handle(handlerInput) {
-        const speechText = 'You can say hello to me!';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .reprompt(speechText)
-            .withSimpleCard('Hello World', speechText)
-            .getResponse();
-    }
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "AMAZON.HelpIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText = "You can say hello to me!";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("Hello World", speechText)
+      .getResponse();
+  }
 };
 const CancelAndStopIntentHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
-                || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
-    },
-    handle(handlerInput) {
-           alexaRequestCtrl.insert(handlerInput);
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      (handlerInput.requestEnvelope.request.intent.name ===
+        "AMAZON.CancelIntent" ||
+        handlerInput.requestEnvelope.request.intent.name ===
+          "AMAZON.StopIntent")
+    );
+  },
+  handle(handlerInput) {
+    alexaDbCtrl.insert(handlerInput);
 
-        const speechText = 'Goodbye!';
-return handlerInput.responseBuilder
-            .speak(speechText)
-            .withSimpleCard('Hello World', speechText)
-            .getResponse();
-    }
+    const speechText = "Goodbye!";
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard("Hello World", speechText)
+      .getResponse();
+  }
 };
 
 const ErrorHandler = {
@@ -211,13 +298,14 @@ const ErrorHandler = {
   }
 };
 let skill;
-const alexaRequestCtrl = new AlexaRequestCtrl();
 class AlexaCtrl {
   post = (req, res) => {
     if (!skill) {
       skill = skillBuilder
         .addRequestHandlers(
           LaunchRequestHandler,
+          PhitrAccountHandler,
+          PhitrAccountDialogHandler,
           PhitrActivityHandler,
           PhitrGreetingHandler,
           PhitrWorkoutHandler,
@@ -225,8 +313,9 @@ class AlexaCtrl {
           CompletedPhitrActivityHandler,
           CancelAndStopIntentHandler,
           SessionEndedRequestHandler
-        ).addErrorHandlers(ErrorHandler)
-
+        )
+        .addRequestInterceptors(RequestLog)
+        .addErrorHandlers(ErrorHandler)
         .create();
     }
     skill
@@ -258,8 +347,8 @@ class AlexaCtrl {
       });
   };
   root = (req, res) => {
-    alexaRequestCtrl.insert(req);
-    res.status(200).send('done')
+    alexaDbCtrl.insert(req);
+    res.status(200).send("done");
   };
 }
 

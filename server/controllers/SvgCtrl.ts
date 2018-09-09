@@ -2,18 +2,17 @@ import { Request, Response, Router } from "express";
 import * as fs from 'fs';
 import * as path from 'path'
 var pug = require('pug');
-import AlexaRequestCtrl from './AlexaRequest';
+import AlexaDbCtrl from './AlexaDbCtrl';
 var request = require('request');
 
 
 
 
-const aRequestControl = new AlexaRequestCtrl();
+const alexaDbCtrl = new AlexaDbCtrl();
 
 class SvgCtrl {
 
  root = (req, res) => {
-    //alexaRequestCtrl.insert(req);
     res.status(200).send('done')
   };
 
