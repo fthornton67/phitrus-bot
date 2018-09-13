@@ -13,10 +13,15 @@ import { AlexaRouter } from "./routes/alexaRouter";
 import { DeviceRouter } from "./routes/deviceRouter";
 import { TokenRouter } from  "./routes/tokenRouter";
 import { SvgRouter } from './routes/svgRouter';
+import { AuthRouter } from './routes/authRouter'; 
 import * as dotenv from 'dotenv';
 
 
 const app: express.Application = express();
+
+var cors = require('cors');
+
+app.use(cors());
 
 app.disable("x-powered-by");
 
@@ -34,9 +39,8 @@ app.use("/api/alexa",AlexaRouter);
 app.use("/api/svg",SvgRouter);
 app.use('/api/devices',DeviceRouter);// secure api
 app.use ('/api/token',TokenRouter);
-app.use ('/auth/applink',(req,res)=>{
-  res.json(req.url);
-});
+app.use ('/oauth',AuthRouter);
+
 
 if(!process.env.MONGODB_URI){
   console.log('using dotenv config');

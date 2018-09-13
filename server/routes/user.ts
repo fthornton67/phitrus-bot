@@ -22,20 +22,7 @@ const getToken = function (headers) {
 userRouter.get('/',function(req,res){
   res.json({'action':'operationx'});
 });
-userRouter.get('/test',function(req,res){
-  res.json('done');
-});
-userRouter.post('/signup', function(req, res) {
-  const user = new User(req.body);
-  
-  user.save((err,item)=>{
-    if(err){
-      res.json(err);
-    }else{
-      res.json(item);
-    }
-  });
-});
+
 userRouter.post('/signin',userCtrl.login);
 
 

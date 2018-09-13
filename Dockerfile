@@ -24,4 +24,4 @@ RUN npm install -g @angular/cli@latest
 COPY . /usr/src/app
 
 # start app
-CMD npm start 
+CMD npm start
