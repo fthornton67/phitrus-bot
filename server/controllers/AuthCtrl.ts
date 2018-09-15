@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { OAuthUsersModel } from "../models/OAuthUsersModel";
+import { OAuthUsersModel,IUserModel } from "../models/OAuthUsersModel";
 const OAuth2Server = require("oauth2-server");
 var jwt = require('jsonwebtoken');
 
@@ -12,12 +12,11 @@ class AuthCtrl {
   
   authenticate = (req, res) => {
     const user = new OAuthUsersModel();
-    OAuthUsersModel.findOne({ username: req.body.username }, (err, user) => {
-      if (!user) { return res.sendStatus(403); }
-    
-      user.comparePassword(req.body.password, (error, isMatch) => {
-        if (!isMatch) { return res.sendStatus(403); }
-        user.exp = ''
+    OAuthUsersModel.findOne({ username: req.body.username }, (err, user:IUserModel) => {
+      if (!user) { return res.status(200).json('could not find user'); }
+      user.schema.methods.comparePassword(req.body.password,user.password, (error, isMatch) => {
+        if (!isMatch) { return res.status(200).json('invalid credentials'); }
+        
         const token = jwt.sign({ user: user }, process.env.SECRET_TOKEN, {expiresIn: 3600}); // , { expiresIn: 10 } seconds
         res.status(200).json({ token: token });
       });
@@ -44,9 +43,10 @@ class AuthCtrl {
 
     user.save((err, item) => {
       if (err) {
-        res.json(err);
+        res.status(403).json(err);
       } else {
-        res.json(item);
+        const token = jwt.sign({ user: user }, process.env.SECRET_TOKEN, {expiresIn: 3600}); // , { expiresIn: 10 } seconds
+        res.status(200).json({ token: token });
       }
     });
   };

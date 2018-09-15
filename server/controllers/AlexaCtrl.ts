@@ -3,17 +3,15 @@ import { Request, Response, Router } from "express";
 //import * as Alexa from 'ask-sdk';
 const Alexa = require("ask-sdk");
 const skillBuilder = Alexa.SkillBuilders.custom();
-
 import AlexaDbCtrl from "./AlexaDbCtrl";
-
 const alexaDbCtrl = new AlexaDbCtrl();
-
 const RequestLog = {
   process(handlerInput) {
-    alexaDbCtrl.insert(handlerInput);
+   // alexaDbCtrl.insert(handlerInput);
     return;
   }
 };
+
 const PhitrGreetingHandler = {
   canHandle(handlerInput) {
     return (
@@ -74,9 +72,11 @@ const PhitrAccountHandler = {
   async handle(handlerInput) {
     var request = handlerInput.requestEnvelope;
     console.log(request.session.user.userId);
-    var hasAccount = await alexaDbCtrl.userHasPhitrAccount(
+    var hasAccount = false;
+   /* var hasAccount = await alexaDbCtrl.userHasPhitrAccount(
       request.session.user.userId
     );
+    */
     console.log(hasAccount);
 
     if (hasAccount) {
@@ -131,7 +131,7 @@ const CompletedPhitrActivityHandler = {
     );
   },
   handle(handlerInput) {
-    alexaDbCtrl.insert(handlerInput);
+    this.logRequest(handlerInput);
 
     console.log("Plan My Workout - handle");
     const speechText = "Cool lets go!";
@@ -195,7 +195,7 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    alexaDbCtrl.insert(handlerInput);
+    this.logRequest(handlerInput);
 
     const speechText =
       "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What's up?";
@@ -275,7 +275,7 @@ const CancelAndStopIntentHandler = {
     );
   },
   handle(handlerInput) {
-    alexaDbCtrl.insert(handlerInput);
+    this.logRequest(handlerInput);
 
     const speechText = "Goodbye!";
     return handlerInput.responseBuilder
@@ -299,6 +299,9 @@ const ErrorHandler = {
 };
 let skill;
 class AlexaCtrl {
+  logRequest = (input)=>{
+
+  };
   post = (req, res) => {
     if (!skill) {
       skill = skillBuilder
@@ -347,7 +350,7 @@ class AlexaCtrl {
       });
   };
   root = (req, res) => {
-    alexaDbCtrl.insert(req);
+    this.logRequest(req);
     res.status(200).send("done");
   };
 }

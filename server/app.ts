@@ -8,10 +8,8 @@ import { feedRouter } from "./routes/feed";
 import { loginRouter } from "./routes/login";
 import { protectedRouter } from "./routes/protected";
 import { publicRouter } from "./routes/public";
-import { userRouter } from "./routes/user";
 import { AlexaRouter } from "./routes/alexaRouter";
 import { DeviceRouter } from "./routes/deviceRouter";
-import { TokenRouter } from  "./routes/tokenRouter";
 import { SvgRouter } from './routes/svgRouter';
 import { AuthRouter } from './routes/authRouter'; 
 import * as dotenv from 'dotenv';
@@ -34,20 +32,23 @@ app.use("/api/secure", protectedRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/public", publicRouter);
 app.use("/api/feed", feedRouter);
-app.use("/api/user", userRouter);
 app.use("/api/alexa",AlexaRouter);
 app.use("/api/svg",SvgRouter);
 app.use('/api/devices',DeviceRouter);// secure api
-app.use ('/api/token',TokenRouter);
 app.use ('/oauth',AuthRouter);
 
 
 if(!process.env.MONGODB_URI){
   console.log('using dotenv config');
   dotenv.config();
+   console.log(process.env.environment=='development');
 }
 
-mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true});
+const options = {
+  useNewUrlParser: true,
+  autoIndex: (process.env.environment=='development'), // Don't build indexes
+};
+mongoose.connect(process.env.MONGODB_URI,options);
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 

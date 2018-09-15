@@ -1,11 +1,15 @@
-import * as mongoose from 'mongoose';
+import { Document, Schema, Model, model,Types} from "mongoose";
+import { IRequest } from '../_interfaces/irequest';
 
-const alexaRequest = new mongoose.Schema({
-  createdAt: Date,
-  req_url: String,
-  location: Object,
+export interface IRequestModel extends IRequest,Document {
+
+}
+
+const RequestSchema:Schema = new Schema({
+ request_url:String,
+ request_body:Object
 });
 
-const AlexaRequestUrl = mongoose.model('alexa_req', alexaRequest);
+export const AlexaRequestModel:Model<IRequestModel> = model<IRequestModel>('alexa_req', RequestSchema);
 
-export default AlexaRequestUrl;
+export default AlexaRequestModel;

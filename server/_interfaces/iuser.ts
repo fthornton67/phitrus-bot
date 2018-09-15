@@ -1,10 +1,13 @@
-import {Document, Schema, Model} from 'mongoose';
+import { Document, Schema, Model, model,Types} from "mongoose";
 
 export interface IUser extends Document {
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  phone?:string;
-  roles?:[string]
+  email?: String;
+  firstName?: String;
+  lastName?: String;
+  password?: String;
+  phone?:String;
+  roles?:Array<String>;
+  username?:String;
+  exp?:Date;
+  createdAt?:Date;
 }
