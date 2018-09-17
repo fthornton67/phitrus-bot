@@ -1,0 +1,58 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Keep your members engaged every step of the way. Finally, a software designed to help you from group training, personal training, in the studio and at home.",
+          "examplePhrases": [
+            "Alexa open phitr",
+            "Alexa tell phitr",
+            "Alexa ask phitr"
+          ],
+          "keywords": [
+            "Fitness"
+          ],
+          "name": "Phitr|us",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/ca41/abe50e96839e483c8552f4cc6c1eb0c2/APP_ICON?versionId=sawwcFAfHICrnx7FTUisJdB5nLQy272q&AWSAccessKeyId=AKIAIEYXX6DHY7O4XWMA&Expires=1537223592&Signature=T5Iz6m1JbuvM2RuOo8N9UcYiaLM%3D",
+          "description": "Keep your members engaged every step of the way. Finally, a software designed to help you from group training, personal training, in the studio and at home.",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/e57a/2c3dd5904d6d4a4ebfdc50af6d727895/APP_ICON_LARGE?versionId=cJTD19upf5p6ILfHlnROrV924ov40wK6&AWSAccessKeyId=AKIAIEYXX6DHY7O4XWMA&Expires=1537223592&Signature=T357a5%2B92Y2anzFe%2FYayJcYEkRI%3D"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "alexa launch phitr\n\nalexa account info",
+      "category": "HEALTH_AND_FITNESS",
+      "distributionMode": "PUBLIC",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sslCertificateType": "Trusted",
+          "uri": "https://bot.phitr.us/api/alexa/post"
+        },
+        "interfaces": [
+          {
+            "type": "AUDIO_PLAYER"
+          },
+          {
+            "type": "CAN_FULFILL_INTENT_REQUEST"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": true,
+      "locales": {
+        "en-US": {
+          "termsOfUseUrl": "https://bot.phitr.us/tos",
+          "privacyPolicyUrl": "https://bot.phitr.us/privacy"
+        }
+      },
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": true
+    }
+  }
+}

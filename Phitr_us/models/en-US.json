@@ -1,0 +1,287 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "phitr",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "phitr_greeting",
+          "samples": [
+            "hello",
+            "say hello",
+            "say hello world"
+          ]
+        },
+        {
+          "name": "phitr_activity",
+          "slots": [
+            {
+              "name": "activity",
+              "type": "phitr_activity"
+            },
+            {
+              "name": "aspect",
+              "type": "phitr_aspect",
+              "samples": [
+                "finishing",
+                "starting"
+              ]
+            },
+            {
+              "name": "device",
+              "type": "phitr_device"
+            },
+            {
+              "name": "reciever",
+              "type": "AMAZON.DeviceType"
+            }
+          ],
+          "samples": [
+            "my {device} is connected to {reciever}",
+            "i'm using a {device}",
+            "{aspect}",
+            "i'm {aspect} {activity}",
+            "{activity}"
+          ]
+        },
+        {
+          "name": "AMAZON.PauseIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ResumeIntent",
+          "samples": []
+        },
+        {
+          "name": "phitr_account",
+          "samples": [
+            "who am i ",
+            "lookup my account",
+            "account info"
+          ]
+        },
+        {
+          "name": "phitr_history",
+          "samples": [
+            "history"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "values": [
+            {
+              "name": {
+                "value": "run"
+              }
+            },
+            {
+              "name": {
+                "value": "lift"
+              }
+            },
+            {
+              "name": {
+                "value": "work"
+              }
+            },
+            {
+              "name": {
+                "value": "sleep"
+              }
+            },
+            {
+              "name": {
+                "value": "eat"
+              }
+            },
+            {
+              "name": {
+                "value": "workout"
+              }
+            }
+          ],
+          "name": "phitr_activity"
+        },
+        {
+          "values": [
+            {
+              "name": {
+                "value": "prepare",
+                "synonyms": [
+                  "going",
+                  "ready"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "finishing",
+                "synonyms": [
+                  "completing",
+                  "almost done",
+                  "almost complete "
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "ending"
+              }
+            },
+            {
+              "name": {
+                "value": "starting "
+              }
+            },
+            {
+              "name": {
+                "value": "end",
+                "synonyms": [
+                  "complete",
+                  "done",
+                  "ending",
+                  "finishing",
+                  "end",
+                  "conclude",
+                  "cease",
+                  "terminate"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "start",
+                "synonyms": [
+                  "establish",
+                  "set up",
+                  "found",
+                  "create",
+                  "institute",
+                  "initiate",
+                  "inaugurate",
+                  "introduce",
+                  "open",
+                  "launch",
+                  "float",
+                  "kick-start",
+                  "jump-start",
+                  "get something off the ground",
+                  "pioneer",
+                  "organize"
+                ]
+              }
+            }
+          ],
+          "name": "phitr_aspect"
+        },
+        {
+          "values": [
+            {
+              "name": {
+                "value": "basketball"
+              }
+            },
+            {
+              "name": {
+                "value": "track"
+              }
+            },
+            {
+              "name": {
+                "value": "app"
+              }
+            },
+            {
+              "name": {
+                "value": "gym"
+              }
+            },
+            {
+              "name": {
+                "value": "ropes"
+              }
+            },
+            {
+              "name": {
+                "value": "hr"
+              }
+            }
+          ],
+          "name": "phitr_device"
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "phitr_activity",
+          "confirmationRequired": false,
+          "slots": [
+            {
+              "name": "activity",
+              "type": "phitr_activity",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1024528791541.880525677011"
+              }
+            },
+            {
+              "name": "aspect",
+              "type": "phitr_aspect",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1024528791541.634194252979"
+              }
+            },
+            {
+              "name": "device",
+              "type": "phitr_device",
+              "elicitationRequired": false,
+              "confirmationRequired": false
+            },
+            {
+              "name": "reciever",
+              "type": "AMAZON.DeviceType",
+              "elicitationRequired": false,
+              "confirmationRequired": false
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.1024528791541.880525677011",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "what are you going to do?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1024528791541.634194252979",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "are you starting or finishing?"
+          }
+        ]
+      }
+    ]
+  }
+}

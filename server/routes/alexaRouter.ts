@@ -28,12 +28,10 @@ const alexaDbCtrl:AlexaDbCtrl = new AlexaDbCtrl();
 
 AlexaRouter.get("/",alexaCtrl.root);
 
-//https://bot.phitr.us/api/alexa/post
 AlexaRouter.post("/phitr", alexaCtrl.phitr);
 AlexaRouter.post("/post",requestVerifier,alexaCtrl.post);
 AlexaRouter.get("/countar",alexaDbCtrl.getCountAR);
 AlexaRouter.get("/devices",alexaDbCtrl.getDevices);
-AlexaRouter.post('/reqUrl',alexaDbCtrl.addRequest);
 
 
 

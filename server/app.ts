@@ -27,6 +27,7 @@ app.use(json());
 app.use(compression());
 app.use(urlencoded({ extended: true }));
 
+
 // api routes
 app.use("/api/secure", protectedRouter);
 app.use("/api/login", loginRouter);
@@ -36,6 +37,7 @@ app.use("/api/alexa",AlexaRouter);
 app.use("/api/svg",SvgRouter);
 app.use('/api/devices',DeviceRouter);// secure api
 app.use ('/oauth',AuthRouter);
+app.use ('/auth/oauth2/v2',AuthRouter);
 
 
 if(!process.env.MONGODB_URI){

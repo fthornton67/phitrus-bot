@@ -32,25 +32,6 @@ export class AppComponent implements OnInit {
 
  
   ngOnInit() {
-
-    this.route.queryParams.subscribe(params => {
-  var simple$ = ajax({
-  url: '/api/alexa/reqUrl',
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rxjs-is': 'Awesome!'
-  },
-  body: {
-    url: JSON.stringify(params),
-    location:location
-
-  }
-});
-    simple$.subscribe((res)=>{
-      console.log(res.response);
-    });
-    });
   
   }
 }

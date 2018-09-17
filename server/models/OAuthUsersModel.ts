@@ -5,6 +5,7 @@ var BCRYPT_SALT_ROUNDS = 12;
 
 export interface IUserModel extends IUser, Document {
   fullName(): string;
+  comparePasswords():boolean;
 }
 
 export var OAuthUsersSchema: Schema = new Schema({

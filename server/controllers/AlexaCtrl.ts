@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { OAuthUsersModel, IUserModel } from "../models/OAuthUsersModel";
 
 //import * as Alexa from 'ask-sdk';
 const Alexa = require("ask-sdk");
@@ -63,31 +64,28 @@ const PhitrActivityHandler = {
 const PhitrAccountHandler = {
   canHandle(handlerInput) {
     var request = handlerInput.requestEnvelope.request;
+    var accessToken = handlerInput.requestEnvelope.context.System.user.accessToken;
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name === "phitr_account" &&
+      accessToken !== null &&
       request.dialogState === "COMPLETED"
     );
   },
   async handle(handlerInput) {
     var request = handlerInput.requestEnvelope;
-    console.log(request.session.user.userId);
-    var hasAccount = false;
-   /* var hasAccount = await alexaDbCtrl.userHasPhitrAccount(
-      request.session.user.userId
-    );
-    */
+    var accessToken = handlerInput.requestEnvelope.context.System.user.accessToken;
+    var hasAccount = accessToken !== undefined;
+   
     console.log(hasAccount);
-
+ 
     if (hasAccount) {
       var speechText = "I have your account info ! What do you want to know?";
       return handlerInput.responseBuilder
         .speak(speechText)
-        .withSimpleCard("phitr account", speechText + this.resp.amz_alx_uid)
+        .withSimpleCard("phitr account", handlerInput.requestEnvelope.context.System.user.accessToken)
         .getResponse();
     } else {
-      var accessToken =
-        handlerInput.requestEnvelope.context.System.user.accessToken;
       if (accessToken == undefined) {
         // The request did not include a token, so tell the user to link
         // accounts and return a LinkAccount card
@@ -131,7 +129,7 @@ const CompletedPhitrActivityHandler = {
     );
   },
   handle(handlerInput) {
-    this.logRequest(handlerInput);
+    console.log(handlerInput);
 
     console.log("Plan My Workout - handle");
     const speechText = "Cool lets go!";
@@ -195,7 +193,6 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    this.logRequest(handlerInput);
 
     const speechText =
       "Hey, welcome to the Alexa phitr skill! <break time='1s'/> What's up?";
@@ -275,7 +272,6 @@ const CancelAndStopIntentHandler = {
     );
   },
   handle(handlerInput) {
-    this.logRequest(handlerInput);
 
     const speechText = "Goodbye!";
     return handlerInput.responseBuilder
@@ -299,9 +295,7 @@ const ErrorHandler = {
 };
 let skill;
 class AlexaCtrl {
-  logRequest = (input)=>{
 
-  };
   post = (req, res) => {
     if (!skill) {
       skill = skillBuilder
@@ -350,7 +344,7 @@ class AlexaCtrl {
       });
   };
   root = (req, res) => {
-    this.logRequest(req);
+    console.log(req);
     res.status(200).send("done");
   };
 }

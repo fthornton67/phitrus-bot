@@ -8,23 +8,7 @@ export default class AlexaDbCtrl {
     return res.status(200).json("tbd");
   };
 
-  getPhitrAccountByAlexaId = (req, res) => {};
- 
-  addRequest = (req,res) =>{
-    
-  };
-
-  addAlexaUserId = (req, res) => {
-    const phitrAccountModel = new PhitrAccountModel();
-   
-  };
-  userHasPhitrAccount = async (req, res) => {
-
-  };
-
-  getDevices = (req, res) => {
   
-  };
   // Insert
   insert = (req, res) => {
     const obj = new AlexaRequestModel(req.body.reqdata);
